@@ -132,6 +132,14 @@ table.grid-table td:first-child{text-align:left;font-family:"Work Sans",sans-ser
 
 .views .tab{font-family:"Oswald",sans-serif;letter-spacing:.04em;}
 
+/* ---- date picker ---- */
+.dates{margin-bottom:2px;}
+.dates .tab{padding:5px 12px;font-size:11.5px;border-radius:999px;}
+.dates .tab.stale{color:var(--text-faint);}
+.dates[hidden]{display:none;}
+.past-day-note{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin-bottom:16px;font-size:12px;color:var(--text-dim);}
+.past-day-note strong{color:var(--text);}
+
 .ranking-list{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;max-width:720px;}
 .ranking-row{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);cursor:pointer;background:transparent;border-left:3px solid transparent;width:100%;text-align:left;font:inherit;color:inherit;}
 .ranking-row:last-child{border-bottom:none;}
@@ -174,17 +182,19 @@ table.grid-table td:first-child{text-align:left;font-family:"Work Sans",sans-ser
       <div class="meta-note" id="metaNote">Loading slate…</div>
     </div>
     <div class="subtitle">Home run and strikeout probabilities, scored from real Statcast batted-ball data, pitcher matchups, park, and weather.</div>
+    <div class="tabs dates" id="datePicker"></div>
     <div class="tabs views" id="views"></div>
     <div class="tabs" id="tabs"></div>
   </div>
 </div>
 
 <div class="wrap">
+  <div class="past-day-note" id="pastDayNote" hidden></div>
   <div class="games-grid" id="gamesGrid"></div>
   <div class="ranking-list" id="rankingsList" hidden></div>
   <div class="parlays-view" id="parlaysView" hidden></div>
   <div class="footer-note">
-    Built from Baseball Savant Statcast leaderboards (season) and raw Statcast pitch-level data (rolling 21-day recent form), MLB Stats API schedule/lineups/probable-pitchers/weather, and a static HR park-factor table. Ali Score is a weighted composite (Baseline power/stuff profile &times; 0.6&ndash;0.65, Opportunity matchup/park/weather/lineup context &times; 0.35&ndash;0.4) scored relative to today's slate. HR, hit, total-base, and strikeout probabilities are model-projected from each player's own real per-plate-appearance rates adjusted for the matchup &mdash; not sportsbook odds, and not calibrated against actual game outcomes the way a trained model would be. Parlay combined probabilities assume independence between legs; same-game legs are usually correlated in reality. No Vegas lines or market odds are connected. Confirmed lineups usually post a few hours before first pitch &mdash; until then, a team's most recent actual batting order is shown and flagged "Projected Lineup." Pitcher-vs-batter handedness splits and per-pitch-type matchup simulation are not modeled (simplified vs. the proprietary methodology this was inspired by); pitcher matchup uses each starter's overall Statcast vulnerability instead. Refreshed once daily.
+    Built from Baseball Savant Statcast leaderboards (season) and raw Statcast pitch-level data (rolling 21-day recent form), MLB Stats API schedule/lineups/probable-pitchers/weather, and a static HR park-factor table. Ali Score is a weighted composite (Baseline power/stuff profile &times; 0.6&ndash;0.65, Opportunity matchup/park/weather/lineup context &times; 0.35&ndash;0.4) scored relative to today's slate. HR, hit, total-base, and strikeout probabilities are model-projected from each player's own real per-plate-appearance rates adjusted for the matchup &mdash; not sportsbook odds, and not calibrated against actual game outcomes the way a trained model would be. Parlay combined probabilities assume independence between legs; same-game legs are usually correlated in reality. No Vegas lines or market odds are connected. Confirmed lineups usually post a few hours before first pitch &mdash; until then, a team's most recent actual batting order is shown and flagged "Projected Lineup." Pitcher-vs-batter handedness splits and per-pitch-type matchup simulation are not modeled (simplified vs. the proprietary methodology this was inspired by); pitcher matchup uses each starter's overall Statcast vulnerability instead. Refreshed once daily; the last 7 days are kept and browsable via the date picker above, then age out automatically.
   </div>
 </div>
 
@@ -215,6 +225,8 @@ const VIEWS = [
 let DATA = null;
 let activeView = "matchups";
 let activeTab = "home_run";
+let availableDates = [];
+let selectedDate = null;
 const expanded = new Set();
 
 function renderViews(){
@@ -574,13 +586,52 @@ function closeModal(){ document.getElementById("overlay").hidden = true; }
 document.getElementById("overlay").addEventListener("click", (e)=>{ if(e.target.id==="overlay") closeModal(); });
 document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
 
-fetch("data.json").then(r=>r.json()).then(d=>{
-  DATA = d;
-  const dt = new Date(d.date+"T12:00:00");
-  document.getElementById("metaNote").textContent = `${dt.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})} · ${d.games.length} games`;
-  renderViews();
-  renderAll();
+function dateLabel(dateStr){
+  const d = new Date(dateStr+"T12:00:00");
+  const today = new Date(); today.setHours(12,0,0,0);
+  const diffDays = Math.round((today - d) / 86400000);
+  if(diffDays === 0) return "Today";
+  if(diffDays === 1) return "Yesterday";
+  return d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+}
+
+function renderDatePicker(){
+  const el = document.getElementById("datePicker");
+  el.hidden = availableDates.length <= 1;
+  el.innerHTML = availableDates.map(d => {
+    const isToday = dateLabel(d) === "Today";
+    return `<button class="tab ${d===selectedDate?'active':''} ${isToday?'':'stale'}" data-date="${d}">${dateLabel(d)}</button>`;
+  }).join("");
+  el.querySelectorAll(".tab").forEach(btn=>{
+    btn.addEventListener("click", ()=>loadDate(btn.dataset.date));
+  });
+}
+
+function loadDate(dateStr){
+  fetch(`data/${dateStr}.json`).then(r=>r.json()).then(d=>{
+    DATA = d;
+    selectedDate = dateStr;
+    renderDatePicker();
+    document.getElementById("metaNote").textContent = `${dateLabel(dateStr)} · ${new Date(dateStr+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})} · ${d.games.length} games`;
+    const note = document.getElementById("pastDayNote");
+    if(dateLabel(dateStr) === "Today"){
+      note.hidden = true;
+    } else {
+      note.hidden = false;
+      note.innerHTML = `You're viewing a frozen snapshot from <strong>${dateLabel(dateStr)}</strong> (${dateStr}) &mdash; scores and lineups as they were that morning, not updated since.`;
+    }
+    renderViews();
+    renderAll();
+  }).catch(err=>{
+    document.getElementById("gamesGrid").innerHTML = `<div class="empty-note">Could not load data for ${dateStr}: ${err}</div>`;
+  });
+}
+
+fetch("dates.json").then(r=>r.json()).then(dates=>{
+  availableDates = dates;
+  if(dates.length === 0) throw new Error("no dates available");
+  loadDate(dates[0]);
 }).catch(err=>{
-  document.getElementById("gamesGrid").innerHTML = `<div class="empty-note">Could not load data.json: ${err}</div>`;
+  document.getElementById("gamesGrid").innerHTML = `<div class="empty-note">Could not load dates.json: ${err}</div>`;
 });
 </script>

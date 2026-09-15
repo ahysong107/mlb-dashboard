@@ -5,14 +5,16 @@ import datetime as dt
 import json
 import sys
 
-from lib_data import load_df, load_json, ROOT, HISTORY_DIR
+from lib_data import load_df, load_json, save_json, ROOT, HISTORY_DIR
 
 SITE_DIR = ROOT / "site"
+SITE_DATA_DIR = SITE_DIR / "data"
 MIN_PA_DISPLAY = 60
 MIN_PA_PITCHER_DISPLAY = 20
 TOP_N_PER_GAME = 8
 TOP_N_RANKINGS = 50
 HISTORY_LOOKBACK = 3
+RETENTION_DAYS = 7
 
 
 def r1(x):
@@ -226,9 +228,37 @@ def main(date_str):
         "parlays": parlays,
     }
 
-    SITE_DIR.mkdir(exist_ok=True)
-    (SITE_DIR / "data.json").write_text(json.dumps(data))
-    print(f"Wrote site/data.json: {len(games)} games, {len(rankings_hr)} HR-ranked, {len(rankings_k)} K-ranked")
+    SITE_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    (SITE_DATA_DIR / f"{date_str}.json").write_text(json.dumps(data))
+
+    kept_dates, removed_dates = prune_and_index(date_str)
+    save_json("pruned_dates.json", removed_dates)
+
+    print(f"Wrote site/data/{date_str}.json: {len(games)} games, {len(rankings_hr)} HR-ranked, {len(rankings_k)} K-ranked")
+    print(f"Rolling window now has {len(kept_dates)} day(s): {kept_dates}")
+    if removed_dates:
+        print(f"Expired (>{RETENTION_DAYS} days old, removed locally -- also strip these from the published artifact's files): {removed_dates}")
+
+
+def prune_and_index(today_str):
+    """Keep only the trailing RETENTION_DAYS snapshots under site/data/,
+    delete anything older from disk, and write site/dates.json listing what
+    remains (newest first) so the front-end knows what it can offer."""
+    cutoff = dt.date.fromisoformat(today_str) - dt.timedelta(days=RETENTION_DAYS - 1)
+    kept, removed = [], []
+    for f in SITE_DATA_DIR.glob("*.json"):
+        try:
+            d = dt.date.fromisoformat(f.stem)
+        except ValueError:
+            continue
+        if d < cutoff:
+            f.unlink()
+            removed.append(f.stem)
+        else:
+            kept.append(f.stem)
+    kept.sort(reverse=True)
+    (SITE_DIR / "dates.json").write_text(json.dumps(kept))
+    return kept, sorted(removed, reverse=True)
 
 
 if __name__ == "__main__":
