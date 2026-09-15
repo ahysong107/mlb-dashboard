@@ -1,0 +1,586 @@
+<meta charset="utf-8">
+<title>Diamond Edge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#ffffff; --surface-2:#eae7dd; --border:#d8d4c6;
+  --text:#14231c; --text-dim:#5b6660; --text-faint:#8a9089;
+  --accent:#b9791a; --accent-ink:#3d2705; --accent-soft:#f1e0bd;
+  --good:#1f7a4d; --good-soft:#d9ecdf; --warn:#b23b1f; --warn-soft:#f3ddd4;
+  --home-dot:#1f7a4d; --away-dot:#7a5a1f;
+  --shadow: 0 1px 2px rgba(20,35,28,.06), 0 8px 24px -12px rgba(20,35,28,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1310; --surface:#131b16; --surface-2:#1a251e; --border:#293428;
+    --text:#eef1ec; --text-dim:#9aa79d; --text-faint:#6d7871;
+    --accent:#e3a83c; --accent-ink:#2a1c05; --accent-soft:#3a2c10;
+    --good:#49bf82; --good-soft:#173425; --warn:#e2704f; --warn-soft:#3a2018;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1310; --surface:#131b16; --surface-2:#1a251e; --border:#293428;
+  --text:#eef1ec; --text-dim:#9aa79d; --text-faint:#6d7871;
+  --accent:#e3a83c; --accent-ink:#2a1c05; --accent-soft:#3a2c10;
+  --good:#49bf82; --good-soft:#173425; --warn:#e2704f; --warn-soft:#3a2018;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,.display{font-family:"Oswald",system-ui,sans-serif;text-transform:uppercase;letter-spacing:.02em;text-wrap:balance;}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+a{color:inherit;}
+::selection{background:var(--accent-soft);}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:1320px;margin:0 auto;padding:18px 24px 0;}
+.brand-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.brand{display:flex;align-items:baseline;gap:12px;}
+.brand h1{font-size:26px;margin:0;font-weight:700;color:var(--text);}
+.brand .flag{display:inline-block;width:9px;height:9px;background:var(--accent);border-radius:50%;transform:translateY(-2px);}
+.subtitle{color:var(--text-dim);font-size:13px;margin:2px 0 14px;}
+.meta-note{color:var(--text-faint);font-size:11.5px;max-width:420px;text-align:right;line-height:1.5;}
+
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:14px;scrollbar-width:none;}
+.tabs[hidden]{display:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:0 0 auto;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);font-size:13px;font-weight:600;letter-spacing:.02em;cursor:pointer;white-space:nowrap;transition:background .12s,color .12s,border-color .12s;}
+.tab:hover{border-color:var(--accent);color:var(--text);}
+.tab.active{background:var(--text);color:var(--bg);border-color:var(--text);}
+:root[data-theme="dark"] .tab.active, @media (prefers-color-scheme:dark){.tab.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}}
+
+.wrap{max-width:1320px;margin:0 auto;padding:22px 24px 80px;}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;}
+.games-grid[hidden]{display:none;}
+
+.game-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;}
+.game-head{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);}
+.game-head-top{display:flex;align-items:center;justify-content:space-between;}
+.matchup{display:flex;align-items:center;gap:8px;font-family:"Oswald",sans-serif;font-size:15px;font-weight:600;letter-spacing:.03em;}
+.team-chip{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.kickoff{font-size:11.5px;color:var(--text-dim);text-align:right;}
+.probables{font-size:11px;color:var(--text-faint);margin-top:5px;}
+.wx-chip{font-size:10px;color:var(--text-faint);margin-top:3px;}
+
+.player-list{display:flex;flex-direction:column;}
+.player-row{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;background:transparent;border-left:3px solid transparent;transition:background .1s,border-color .1s;text-align:left;width:100%;font:inherit;color:inherit;}
+.player-row:last-child{border-bottom:none;}
+.player-row:hover{background:var(--surface-2);border-left-color:var(--accent);}
+.rank{color:var(--text-faint);font-size:12px;font-family:"JetBrains Mono",monospace;display:flex;flex-direction:column;align-items:center;gap:1px;}
+.arrow{font-size:9px;line-height:1;}
+.arrow.up{color:var(--good);}
+.arrow.down{color:var(--warn);}
+.arrow.new{color:var(--accent);font-weight:700;font-size:8px;}
+.p-name{font-weight:600;font-size:13.5px;}
+.p-sub{font-size:11px;color:var(--text-dim);margin-top:1px;}
+.p-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.tag{font-size:9.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--surface-2);color:var(--text-dim);border:1px solid var(--border);}
+.tag.good{background:var(--good-soft);color:var(--good);border-color:transparent;}
+.tag.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent;}
+.tag.info{border:1px solid var(--accent);color:var(--accent-ink);}
+:root[data-theme="dark"] .tag.info{color:var(--accent);}
+
+.metric-col{text-align:right;min-width:78px;}
+.metric-val{font-family:"JetBrains Mono",monospace;font-weight:600;font-size:16px;font-variant-numeric:tabular-nums;}
+.metric-lbl{font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;}
+.bar-track{height:4px;border-radius:2px;background:var(--surface-2);margin-top:5px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--accent);border-radius:2px;}
+
+.show-more{padding:9px 16px;font-size:11.5px;color:var(--text-dim);text-align:center;cursor:pointer;border-top:1px dashed var(--border);}
+.show-more:hover{color:var(--accent);}
+
+.empty-note{padding:24px 16px;font-size:12.5px;color:var(--text-faint);text-align:center;}
+
+.overlay{position:fixed;inset:0;background:rgba(10,14,11,.5);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px;z-index:100;overflow-y:auto;}
+.overlay[hidden]{display:none;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;max-width:640px;width:100%;box-shadow:var(--shadow);margin-bottom:5vh;}
+.modal-head{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;}
+.modal-head h2{font-size:22px;margin:0 0 2px;}
+.modal-sub{color:var(--text-dim);font-size:13px;}
+.close-btn{background:var(--surface-2);border:1px solid var(--border);color:var(--text-dim);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1;flex:0 0 auto;}
+.close-btn:hover{color:var(--text);border-color:var(--accent);}
+.modal-body{padding:20px 24px 26px;display:flex;flex-direction:column;gap:22px;}
+
+.score-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.tile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;}
+.tile .v{font-family:"JetBrains Mono",monospace;font-size:20px;font-weight:600;}
+.tile .l{font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+.tile.accent{background:var(--accent-soft);border-color:transparent;}
+.tile.accent .v{color:var(--accent-ink);}
+:root[data-theme="dark"] .tile.accent .v{color:var(--accent);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile.accent .v{color:var(--accent);}}
+
+.section-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);font-weight:600;margin:0 0 8px;}
+.debt-line{font-size:12.5px;color:var(--text-dim);line-height:1.5;margin:0 0 10px;}
+
+table.grid-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.grid-table th{text-align:right;font-weight:600;color:var(--text-faint);font-size:10px;text-transform:uppercase;letter-spacing:.03em;padding:0 6px 6px;}
+table.grid-table th:first-child{text-align:left;}
+table.grid-table td{padding:7px 6px;border-top:1px solid var(--border);text-align:right;font-family:"JetBrains Mono",monospace;}
+table.grid-table td:first-child{text-align:left;font-family:"Work Sans",sans-serif;color:var(--text);}
+
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.stat-list{display:flex;flex-direction:column;gap:8px;}
+.stat-item{display:flex;justify-content:space-between;font-size:12.5px;border-bottom:1px dotted var(--border);padding-bottom:6px;}
+.stat-item .k{color:var(--text-dim);}
+.stat-item .v{font-family:"JetBrains Mono",monospace;font-weight:600;}
+
+.footer-note{margin-top:30px;padding-top:18px;border-top:1px solid var(--border);color:var(--text-faint);font-size:11.5px;max-width:680px;line-height:1.6;}
+
+.views .tab{font-family:"Oswald",sans-serif;letter-spacing:.04em;}
+
+.ranking-list{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;max-width:720px;}
+.ranking-row{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);cursor:pointer;background:transparent;border-left:3px solid transparent;width:100%;text-align:left;font:inherit;color:inherit;}
+.ranking-row:last-child{border-bottom:none;}
+.ranking-row:hover{background:var(--surface-2);border-left-color:var(--accent);}
+.ranking-row .rank{font-size:14px;color:var(--text-faint);}
+.ranking-row .rank.top3{color:var(--accent);font-weight:700;}
+.ranking-row .p-sub{font-size:11.5px;color:var(--text-dim);margin-top:1px;}
+
+.tier-section{margin-bottom:28px;}
+.tier-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;}
+.tier-head h2{font-size:20px;margin:0;}
+.tier-badge{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;}
+.tier-badge.Safe{background:var(--good-soft);color:var(--good);}
+.tier-badge.Standard{background:var(--accent-soft);color:var(--accent-ink);}
+:root[data-theme="dark"] .tier-badge.Standard{color:var(--accent);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tier-badge.Standard{color:var(--accent);}}
+.tier-badge.Bold{background:var(--warn-soft);color:var(--warn);}
+.tier-note{font-size:12px;color:var(--text-faint);}
+.parlay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+.parlay-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;display:flex;flex-direction:column;gap:12px;}
+.parlay-legs{display:flex;flex-direction:column;gap:9px;}
+.parlay-leg{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding-bottom:9px;border-bottom:1px dotted var(--border);}
+.parlay-leg:last-child{border-bottom:none;padding-bottom:0;}
+.parlay-leg .leg-desc{font-weight:600;}
+.parlay-leg .leg-meta{color:var(--text-faint);font-size:11px;margin-top:1px;}
+.parlay-leg .leg-prob{font-family:"JetBrains Mono",monospace;color:var(--text-dim);white-space:nowrap;}
+.parlay-foot{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border);}
+.parlay-combined{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:600;}
+.parlay-odds{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--text-dim);}
+.sgp-flag{font-size:9.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--text-faint);}
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <div class="brand">
+        <span class="flag"></span>
+        <h1>Diamond Edge</h1>
+      </div>
+      <div class="meta-note" id="metaNote">Loading slate…</div>
+    </div>
+    <div class="subtitle">Home run and strikeout probabilities, scored from real Statcast batted-ball data, pitcher matchups, park, and weather.</div>
+    <div class="tabs views" id="views"></div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="games-grid" id="gamesGrid"></div>
+  <div class="ranking-list" id="rankingsList" hidden></div>
+  <div class="parlays-view" id="parlaysView" hidden></div>
+  <div class="footer-note">
+    Built from Baseball Savant Statcast leaderboards (season) and raw Statcast pitch-level data (rolling 21-day recent form), MLB Stats API schedule/lineups/probable-pitchers/weather, and a static HR park-factor table. Ali Score is a weighted composite (Baseline power/stuff profile &times; 0.6&ndash;0.65, Opportunity matchup/park/weather/lineup context &times; 0.35&ndash;0.4) scored relative to today's slate. HR, hit, total-base, and strikeout probabilities are model-projected from each player's own real per-plate-appearance rates adjusted for the matchup &mdash; not sportsbook odds, and not calibrated against actual game outcomes the way a trained model would be. Parlay combined probabilities assume independence between legs; same-game legs are usually correlated in reality. No Vegas lines or market odds are connected. Confirmed lineups usually post a few hours before first pitch &mdash; until then, a team's most recent actual batting order is shown and flagged "Projected Lineup." Pitcher-vs-batter handedness splits and per-pitch-type matchup simulation are not modeled (simplified vs. the proprietary methodology this was inspired by); pitcher matchup uses each starter's overall Statcast vulnerability instead. Refreshed once daily.
+  </div>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const TEAM_COLORS = {
+AZ:"#A71930",ATL:"#CE1141",BAL:"#DF4601",BOS:"#BD3039",CHC:"#0E3386",CWS:"#27251F",
+CIN:"#C6011F",CLE:"#00385D",COL:"#333366",DET:"#0C2C56",HOU:"#EB6E1F",KC:"#004687",
+LAA:"#BA0021",LAD:"#005A9C",MIA:"#00A3E0",MIL:"#12284B",MIN:"#002B5C",NYM:"#002D72",
+NYY:"#003087",ATH:"#003831",PHI:"#E81828",PIT:"#FDB827",SD:"#2F241D",SF:"#FD5A1E",
+SEA:"#0C2C56",STL:"#C41E3A",TB:"#092C5C",TEX:"#003278",TOR:"#134A8E",WSH:"#AB0003"
+};
+
+const TABS = [
+  {key:"home_run", label:"Home Runs"},
+  {key:"strikeouts", label:"Strikeouts"},
+];
+
+const VIEWS = [
+  {key:"matchups", label:"Matchups"},
+  {key:"rankings", label:"Rankings"},
+  {key:"parlays", label:"System Parlays"},
+];
+
+let DATA = null;
+let activeView = "matchups";
+let activeTab = "home_run";
+const expanded = new Set();
+
+function renderViews(){
+  const el = document.getElementById("views");
+  el.innerHTML = VIEWS.map(v => `<button class="tab ${v.key===activeView?'active':''}" data-view="${v.key}">${v.label}</button>`).join("");
+  el.querySelectorAll(".tab").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      activeView = btn.dataset.view;
+      renderViews();
+      renderAll();
+    });
+  });
+}
+
+function renderAll(){
+  const tabsEl = document.getElementById("tabs");
+  const gamesGrid = document.getElementById("gamesGrid");
+  const rankingsList = document.getElementById("rankingsList");
+  const parlaysView = document.getElementById("parlaysView");
+
+  tabsEl.hidden = activeView === "parlays";
+  gamesGrid.hidden = activeView !== "matchups";
+  rankingsList.hidden = activeView !== "rankings";
+  parlaysView.hidden = activeView !== "parlays";
+
+  if(activeView === "matchups"){ renderTabs(); renderGames(); }
+  else if(activeView === "rankings"){ renderTabs(); renderRankings(); }
+  else { renderParlays(); }
+}
+
+function fmtTime(iso){
+  try{
+    const dt = new Date(iso);
+    return dt.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+  }catch(e){ return ""; }
+}
+
+function teamDot(team){
+  const c = TEAM_COLORS[team] || "#888";
+  return `<span class="team-chip" style="background:${c}"></span>`;
+}
+
+function renderTabs(){
+  const el = document.getElementById("tabs");
+  el.innerHTML = TABS.map(t => `<button class="tab ${t.key===activeTab?'active':''}" data-tab="${t.key}">${t.label}</button>`).join("");
+  el.querySelectorAll(".tab").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      activeTab = btn.dataset.tab;
+      renderTabs();
+      if(activeView === "rankings") renderRankings(); else renderGames();
+    });
+  });
+}
+
+function metricFor(key, p){
+  if(key === "home_run"){
+    return {val: p.hr_probability.toFixed(1)+"%", label:"HR prob", pct: p.hr_probability*3};
+  }
+  return {val: p.projected_k.toFixed(1), label:"proj Ks", pct: Math.min(100, p.projected_k/9*100)};
+}
+
+function tagClass(tag){
+  if(tag === "Projected Lineup") return "info";
+  if(["DUE","VIPER","TRENDING UP"].includes(tag)) return "good";
+  if(tag === "OVERPERFORMING") return "warn";
+  return "";
+}
+
+function arrowHtml(a){
+  if(a === "up") return `<span class="arrow up">&#9650;</span>`;
+  if(a === "down") return `<span class="arrow down">&#9660;</span>`;
+  if(a === "new") return `<span class="arrow new">NEW</span>`;
+  if(a === "same") return `<span class="arrow" style="color:var(--text-faint);">&mdash;</span>`;
+  return "";
+}
+
+function playerSub(p, tabKey){
+  const vs = p.is_home ? "vs" : "@";
+  if(tabKey === "home_run"){
+    const order = p.order ? `#${p.order} &middot; ` : "";
+    return `${order}${p.position} &middot; ${vs} ${p.opponent}`;
+  }
+  return `${vs} ${p.opponent}`;
+}
+
+function playerRow(p, idx, tabKey){
+  const m = metricFor(tabKey, p);
+  const tags = (p.reason_tags||[]).slice(0,2).map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join("");
+  return `<button class="player-row" data-pid="${p.player_id}" data-tab="${tabKey}" data-game="${p.__game_id}">
+    <span class="rank">${idx+1}${arrowHtml(p.rank_arrow)}</span>
+    <span>
+      <div class="p-name">${p.name}</div>
+      <div class="p-sub">${playerSub(p, tabKey)}</div>
+      ${tags ? `<div class="p-tags">${tags}</div>` : ""}
+    </span>
+    <span class="metric-col">
+      <div class="metric-val">${m.val}</div>
+      <div class="metric-lbl">${m.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.min(100,m.pct))}%"></div></div>
+    </span>
+  </button>`;
+}
+
+function renderGames(){
+  const grid = document.getElementById("gamesGrid");
+  const cards = DATA.games.map(g=>{
+    let list = (g.players[activeTab] || []).map(p => ({...p, __game_id: g.game_id}));
+    const wx = g.weather_line || "";
+    const head = `<div class="game-head">
+        <div class="game-head-top">
+          <div class="matchup">${teamDot(g.away_team)}${g.away_team} <span style="color:var(--text-faint);font-weight:400;">@</span> ${teamDot(g.home_team)}${g.home_team}</div>
+          <div class="kickoff">${fmtTime(g.game_time_utc)}</div>
+        </div>
+        <div class="probables">${g.away_probable} vs ${g.home_probable}${g.lineup_source==='projected' ? ' &middot; projected lineups' : ''}</div>
+        ${wx ? `<div class="wx-chip">${wx}</div>` : ""}
+      </div>`;
+    if(list.length === 0){
+      return `<div class="game-card">${head}<div class="empty-note">No qualifying players for this slate.</div></div>`;
+    }
+    const showKey = g.game_id + "|" + activeTab;
+    const isExpanded = expanded.has(showKey);
+    const shown = isExpanded ? list : list.slice(0,5);
+    const rows = shown.map((p,i)=>playerRow(p,i,activeTab)).join("");
+    const more = list.length > 5 ? `<div class="show-more" data-showkey="${showKey}">${isExpanded ? "Show less" : `Show ${list.length-5} more`}</div>` : "";
+    return `<div class="game-card">${head}<div class="player-list">${rows}</div>${more}</div>`;
+  }).join("");
+  grid.innerHTML = cards;
+
+  grid.querySelectorAll(".player-row").forEach(row=>{
+    row.addEventListener("click", ()=>{
+      const pid = row.dataset.pid, gid = row.dataset.game, tab = row.dataset.tab;
+      const game = DATA.games.find(g=>g.game_id===gid);
+      const player = game.players[tab].find(p=>String(p.player_id)===pid);
+      openModal(player, tab, game);
+    });
+  });
+  grid.querySelectorAll(".show-more").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const key = el.dataset.showkey;
+      if(expanded.has(key)) expanded.delete(key); else expanded.add(key);
+      renderGames();
+    });
+  });
+}
+
+function findGameForPlayer(pid, tab){
+  for(const g of DATA.games){
+    if((g.players[tab]||[]).some(p=>String(p.player_id)===String(pid))) return g;
+  }
+  return null;
+}
+
+function renderRankings(){
+  const el = document.getElementById("rankingsList");
+  const list = DATA.rankings[activeTab] || [];
+  if(list.length === 0){
+    el.innerHTML = `<div class="empty-note">No qualifying players today.</div>`;
+    return;
+  }
+  el.innerHTML = list.map((p,i)=>{
+    const m = metricFor(activeTab, p);
+    const tags = (p.reason_tags||[]).slice(0,3).map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join("");
+    const sub = activeTab === "home_run" ? `${p.team} &middot; vs ${p.opponent}` : `${p.team} &middot; vs ${p.opponent}`;
+    return `<button class="ranking-row" data-pid="${p.player_id}">
+      <span class="rank ${i<3?'top3':''}">${i+1}${arrowHtml(p.rank_arrow)}</span>
+      <span>
+        <div class="p-name">${p.name}</div>
+        <div class="p-sub">${sub}</div>
+        ${tags ? `<div class="p-tags">${tags}</div>` : ""}
+      </span>
+      <span class="metric-col">
+        <div class="metric-val">${m.val}</div>
+        <div class="metric-lbl">${m.label}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.min(100,m.pct))}%"></div></div>
+      </span>
+    </button>`;
+  }).join("");
+
+  el.querySelectorAll(".ranking-row").forEach(row=>{
+    row.addEventListener("click", ()=>{
+      const pid = row.dataset.pid;
+      const player = list.find(p=>String(p.player_id)===pid);
+      const game = findGameForPlayer(pid, activeTab);
+      openModal(player, activeTab, game);
+    });
+  });
+}
+
+const TIER_NOTES = {
+  safe: "Higher floor legs, tighter combined range. Still not a guarantee.",
+  standard: "Balanced risk: a mix of hit, total-base, home run, and strikeout legs.",
+  bold: "Longer-shot combinations for bigger multipliers &mdash; expect most of these to miss.",
+};
+
+function parlayLegRow(leg){
+  return `<div class="parlay-leg">
+    <span>
+      <div class="leg-desc">${leg.description}</div>
+      <div class="leg-meta">${leg.game_label}</div>
+    </span>
+    <span class="leg-prob">${(leg.prob*100).toFixed(0)}%</span>
+  </div>`;
+}
+
+function parlayCard(pl){
+  return `<div class="parlay-card">
+    <div class="parlay-legs">${pl.legs.map(parlayLegRow).join("")}</div>
+    <div class="parlay-foot">
+      <div>
+        <div class="parlay-combined">${pl.combined_prob}%</div>
+        <div class="metric-lbl">combined probability</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="parlay-odds">${pl.fair_odds}</div>
+        ${pl.same_game ? '<div class="sgp-flag">Same-game &mdash; legs may be correlated</div>' : '<div class="sgp-flag">Cross-game</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderParlays(){
+  const el = document.getElementById("parlaysView");
+  const tiers = [
+    {key:"safe", label:"Safe", data: DATA.parlays.safe},
+    {key:"standard", label:"Standard", data: DATA.parlays.standard},
+    {key:"bold", label:"Bold", data: DATA.parlays.bold},
+  ];
+  el.innerHTML = tiers.map(t => `
+    <div class="tier-section">
+      <div class="tier-head">
+        <span class="tier-badge ${t.label}">${t.label}</span>
+        <h2 style="font-size:16px;text-transform:none;letter-spacing:0;color:var(--text-dim);font-weight:600;margin:0;font-family:'Work Sans',sans-serif;">${TIER_NOTES[t.key]}</h2>
+      </div>
+      <div class="parlay-grid">${t.data.map(parlayCard).join("") || '<div class="empty-note">No qualifying combinations today.</div>'}</div>
+    </div>
+  `).join("");
+}
+
+function pct(n){ return n==null ? "&mdash;" : n.toFixed(1)+"%"; }
+
+function renderBatterModal(p, game){
+  return `
+    <div class="modal-head">
+      <div>
+        <h2>${p.name}</h2>
+        <div class="modal-sub">${p.position} &middot; ${p.team} ${p.is_home?'vs':'@'} ${p.opponent}${p.order?` &middot; batting ${p.order}${p.order===1?'st':p.order===2?'nd':p.order===3?'rd':'th'}`:''}</div>
+      </div>
+      <button class="close-btn" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="score-tiles">
+        <div class="tile accent"><div class="v">${p.ali_score}</div><div class="l">Ali Score</div></div>
+        <div class="tile accent"><div class="v">${pct(p.hr_probability)}</div><div class="l">HR Probability</div></div>
+        <div class="tile"><div class="v">${p.baseline_score}</div><div class="l">Baseline</div></div>
+        <div class="tile"><div class="v">${p.opportunity_score}</div><div class="l">Opportunity</div></div>
+      </div>
+
+      <div>
+        <p class="section-title">Baseline Profile <span style="text-transform:none;letter-spacing:0;color:var(--text-faint);font-weight:400;">&mdash; season blended with 21-day recent form</span></p>
+        <table class="grid-table">
+          <tr><th>Barrel %</th><th>Hard Hit %</th><th>Exit Velo</th><th>FB %</th><th>HR/FB %</th></tr>
+          <tr><td>${pct(p.barrel_pct)}</td><td>${pct(p.hard_hit_pct)}</td><td>${p.exit_velo??'&mdash;'} mph</td><td>${pct(p.fb_pct)}</td><td>${pct(p.hr_per_fb)}</td></tr>
+        </table>
+      </div>
+
+      <div class="stat-grid">
+        <div>
+          <p class="section-title">Season Context</p>
+          <div class="stat-list">
+            <div class="stat-item"><span class="k">Season HR</span><span class="v">${p.season_hr}</span></div>
+            <div class="stat-item"><span class="k">xSLG</span><span class="v">${p.xslg}</span></div>
+            <div class="stat-item"><span class="k">xBA</span><span class="v">${p.xba}</span></div>
+            <div class="stat-item"><span class="k">Days Since HR</span><span class="v">${p.days_since_hr ?? '21+'}</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Opportunity Factors</p>
+          <div class="stat-list">
+            <div class="stat-item"><span class="k">Pitcher Matchup</span><span class="v">${p.pitch_matchup}</span></div>
+            <div class="stat-item"><span class="k">Park Factor</span><span class="v">${p.park_factor}</span></div>
+            <div class="stat-item"><span class="k">Wind</span><span class="v">${p.wind_dir ?? '&mdash;'}</span></div>
+            <div class="stat-item"><span class="k">Temp</span><span class="v">${p.temp ?? '&mdash;'}&deg;F</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-title">Parlay-Relevant Lines</p>
+        <table class="grid-table">
+          <tr><th>1+ Hits</th><th>2+ Total Bases</th></tr>
+          <tr><td>${pct(p.hit_probability)}</td><td>${pct(p.tb2_probability)}</td></tr>
+        </table>
+      </div>
+
+      <p class="debt-line">${p.summary}</p>
+      ${p.reason_tags && p.reason_tags.length ? `<div class="p-tags">${p.reason_tags.map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join("")}</div>` : ""}
+    </div>
+  `;
+}
+
+function renderPitcherModal(p, game){
+  const linesRows = p.k_lines.map(l=>`<tr><td>Over ${l.line}</td><td>${l.prob_over}%</td></tr>`).join("");
+  return `
+    <div class="modal-head">
+      <div>
+        <h2>${p.name}</h2>
+        <div class="modal-sub">${p.team} ${p.is_home?'vs':'@'} ${p.opponent}</div>
+      </div>
+      <button class="close-btn" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="score-tiles">
+        <div class="tile accent"><div class="v">${p.ali_score}</div><div class="l">Ali Score</div></div>
+        <div class="tile accent"><div class="v">${p.projected_k}</div><div class="l">Projected Ks</div></div>
+        <div class="tile"><div class="v">${p.baseline_score}</div><div class="l">Baseline</div></div>
+        <div class="tile"><div class="v">${p.opportunity_score}</div><div class="l">Opportunity</div></div>
+      </div>
+      <div>
+        <p class="section-title">Modeled Strikeout Lines <span style="text-transform:none;letter-spacing:0;color:var(--text-faint);font-weight:400;">&mdash; not sportsbook odds</span></p>
+        <table class="grid-table">
+          <tr><th>Threshold</th><th>Prob. Over</th></tr>
+          ${linesRows}
+        </table>
+      </div>
+      <div class="stat-grid">
+        <div>
+          <p class="section-title">Stuff Profile</p>
+          <div class="stat-list">
+            <div class="stat-item"><span class="k">ERA</span><span class="v">${p.era}</span></div>
+            <div class="stat-item"><span class="k">K %</span><span class="v">${pct(p.k_pct)}</span></div>
+            <div class="stat-item"><span class="k">Whiff %</span><span class="v">${pct(p.whiff_pct)}</span></div>
+            <div class="stat-item"><span class="k">Contact Against</span><span class="v">${pct(p.contact_against)}</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Opponent Context</p>
+          <div class="stat-list">
+            <div class="stat-item"><span class="k">Opp Lineup K %</span><span class="v">${pct(p.opp_lineup_k_pct)}</span></div>
+            <div class="stat-item"><span class="k">Opp Lineup OPS</span><span class="v">${p.opp_lineup_ops}</span></div>
+            <div class="stat-item"><span class="k">Est. Batters Faced</span><span class="v">${p.bf_estimate}</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="debt-line">${p.summary}</p>
+      ${p.reason_tags && p.reason_tags.length ? `<div class="p-tags">${p.reason_tags.map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join("")}</div>` : ""}
+    </div>
+  `;
+}
+
+function openModal(p, tabKey, game){
+  const modal = document.getElementById("modal");
+  modal.innerHTML = tabKey === "home_run" ? renderBatterModal(p, game) : renderPitcherModal(p, game);
+  document.getElementById("overlay").hidden = false;
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+}
+function closeModal(){ document.getElementById("overlay").hidden = true; }
+document.getElementById("overlay").addEventListener("click", (e)=>{ if(e.target.id==="overlay") closeModal(); });
+document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
+
+fetch("data.json").then(r=>r.json()).then(d=>{
+  DATA = d;
+  const dt = new Date(d.date+"T12:00:00");
+  document.getElementById("metaNote").textContent = `${dt.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})} · ${d.games.length} games`;
+  renderViews();
+  renderAll();
+}).catch(err=>{
+  document.getElementById("gamesGrid").innerHTML = `<div class="empty-note">Could not load data.json: ${err}</div>`;
+});
+</script>
