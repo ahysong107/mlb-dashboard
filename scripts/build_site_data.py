@@ -180,18 +180,27 @@ def main(date_str):
         "strikeouts": {str(k): v for k, v in k_ranks.items()},
     }))
 
-    by_game_hr = {}
+    # Keyed by (game_id, team) so the per-team cap below can't let one side's
+    # depth crowd the other side's own best hitters/pitchers off the card --
+    # e.g. 5 Marlins batters outscoring every Diamondback would otherwise
+    # bump Corbin Carroll off the game entirely even at a reasonable 16.7%.
+    by_team_hr = {}
     for p in hr_ranked:
-        by_game_hr.setdefault(p["__game_id"], []).append(p)
-    by_game_k = {}
+        by_team_hr.setdefault((p["__game_id"], p["team"]), []).append(p)
+    by_team_k = {}
     for p in k_ranked:
-        by_game_k.setdefault(p["__game_id"], []).append(p)
+        by_team_k.setdefault((p["__game_id"], p["team"]), []).append(p)
 
     games = []
     for g in schedule["games"]:
         gid = g["game_id"]
-        hr_list = sorted(by_game_hr.get(gid, []), key=lambda p: p["_sort_key"], reverse=True)[:TOP_N_PER_GAME]
-        k_list = sorted(by_game_k.get(gid, []), key=lambda p: p["_sort_key"], reverse=True)[:TOP_N_PER_GAME]
+        hr_list = []
+        k_list = []
+        for team in (g["away_team"], g["home_team"]):
+            hr_list += sorted(by_team_hr.get((gid, team), []), key=lambda p: p["_sort_key"], reverse=True)[:TOP_N_PER_GAME]
+            k_list += sorted(by_team_k.get((gid, team), []), key=lambda p: p["_sort_key"], reverse=True)[:TOP_N_PER_GAME]
+        hr_list.sort(key=lambda p: p["_sort_key"], reverse=True)
+        k_list.sort(key=lambda p: p["_sort_key"], reverse=True)
         w = g.get("weather") or {}
         weather_line = None
         if w.get("temp") is not None:

@@ -7,10 +7,12 @@ than "confirmed" so the site can be honest about it.
 """
 import datetime as dt
 import sys
+from collections import Counter
 
 from lib_data import statsapi_get, save_json
 
 LOOKBACK_DAYS = 6
+FALLBACK_GAMES = 5  # majority-vote per batting slot across this many recent games
 
 
 def _parse_lineup(players):
@@ -26,6 +28,12 @@ def _parse_lineup(players):
 
 
 def _fallback_lineup(team_id, before_date):
+    """A single most-recent lineup is unreliable -- a regular starter who
+    happened to sit (rest day, platoon matchup) the very last game would
+    vanish entirely. Instead, majority-vote each batting-order slot across
+    the last FALLBACK_GAMES games that had a posted lineup, so an every-day
+    player's normal spot survives one-off absences.
+    """
     end = dt.date.fromisoformat(before_date) - dt.timedelta(days=1)
     start = end - dt.timedelta(days=LOOKBACK_DAYS)
     data = statsapi_get(
@@ -38,14 +46,31 @@ def _fallback_lineup(team_id, before_date):
             "hydrate": "lineups",
         },
     )
+    recent_lineups = []
     for d in sorted(data.get("dates", []), key=lambda x: x["date"], reverse=True):
         for g in d["games"]:
             lineups = g.get("lineups", {})
             is_home = g["teams"]["home"]["team"]["id"] == team_id
             players = lineups.get("homePlayers" if is_home else "awayPlayers")
             if players:
-                return _parse_lineup(players)
-    return []
+                recent_lineups.append(players)
+        if len(recent_lineups) >= FALLBACK_GAMES:
+            break
+
+    if not recent_lineups:
+        return []
+    if len(recent_lineups) == 1:
+        return _parse_lineup(recent_lineups[0])
+
+    composite = []
+    max_slots = max(len(g) for g in recent_lineups)
+    for slot in range(max_slots):
+        candidates = [g[slot] for g in recent_lineups if len(g) > slot]
+        if not candidates:
+            continue
+        best_id = Counter(p["id"] for p in candidates).most_common(1)[0][0]
+        composite.append(next(p for p in candidates if p["id"] == best_id))
+    return _parse_lineup(composite)
 
 
 def fetch_schedule(date_str):
