@@ -7,7 +7,6 @@ than "confirmed" so the site can be honest about it.
 """
 import datetime as dt
 import sys
-from collections import Counter
 
 from lib_data import statsapi_get, save_json
 
@@ -30,9 +29,16 @@ def _parse_lineup(players):
 def _fallback_lineup(team_id, before_date):
     """A single most-recent lineup is unreliable -- a regular starter who
     happened to sit (rest day, platoon matchup) the very last game would
-    vanish entirely. Instead, majority-vote each batting-order slot across
-    the last FALLBACK_GAMES games that had a posted lineup, so an every-day
-    player's normal spot survives one-off absences.
+    vanish entirely.
+
+    Voting per fixed batting-order slot (an earlier version of this
+    function) doesn't fix that either: a regular who bats 1st one game and
+    2nd the next never wins a majority at either exact slot, so an
+    every-day player can still get crowded out by someone who plays less
+    often but always hits in the same rigid spot. Instead: first pick WHO
+    plays -- the players who appeared most often across the last
+    FALLBACK_GAMES games with a posted lineup -- then order THEM by their
+    average batting-order slot across the games they were actually in.
     """
     end = dt.date.fromisoformat(before_date) - dt.timedelta(days=1)
     start = end - dt.timedelta(days=LOOKBACK_DAYS)
@@ -62,14 +68,21 @@ def _fallback_lineup(team_id, before_date):
     if len(recent_lineups) == 1:
         return _parse_lineup(recent_lineups[0])
 
-    composite = []
-    max_slots = max(len(g) for g in recent_lineups)
-    for slot in range(max_slots):
-        candidates = [g[slot] for g in recent_lineups if len(g) > slot]
-        if not candidates:
-            continue
-        best_id = Counter(p["id"] for p in candidates).most_common(1)[0][0]
-        composite.append(next(p for p in candidates if p["id"] == best_id))
+    lineup_size = max(len(g) for g in recent_lineups)
+    appearances = {}  # id -> {"player": dict, "slots": [order...]}
+    for g in recent_lineups:
+        for i, p in enumerate(g):
+            rec = appearances.setdefault(p["id"], {"player": p, "slots": []})
+            rec["slots"].append(i)
+
+    ranked = sorted(
+        appearances.values(),
+        key=lambda r: (-len(r["slots"]), sum(r["slots"]) / len(r["slots"])),
+    )
+    composite = [r["player"] for r in ranked[:lineup_size]]
+    composite.sort(key=lambda p: sum(
+        appearances[p["id"]]["slots"]
+    ) / len(appearances[p["id"]]["slots"]))
     return _parse_lineup(composite)
 
 

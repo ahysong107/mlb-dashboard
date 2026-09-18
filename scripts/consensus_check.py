@@ -14,42 +14,43 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-16"
+DATE = "2026-09-18"
 
 VENOM_TOP50 = [
-    (1, "Riley Greene"), (2, "Jackson Merrill"), (3, "Luis García Jr."),
-    (4, "Pete Crow-Armstrong"), (5, "Corbin Carroll"), (6, "Elly De La Cruz"),
-    (7, "Aaron Judge"), (8, "Fernando Tatis Jr."), (9, "Pete Alonso"),
-    (10, "Carter Jensen"), (11, "Kazuma Okamoto"), (12, "Teoscar Hernández"),
-    (13, "Brett Callahan"), (14, "Eugenio Suárez"), (15, "Jac Caglianone"),
-    (16, "Ty France"), (17, "Vinnie Pasquantino"), (18, "Bryan Reynolds"),
-    (19, "Eduardo Valencia"), (20, "Griffin Conine"), (21, "Ben Rice"),
-    (22, "Max Muncy"), (23, "Connor Norby"), (24, "Munetaka Murakami"),
-    (25, "Kyle Tucker"), (26, "Matt Olson"), (27, "Kyle Schwarber"),
-    (28, "Manny Machado"), (29, "Bobby Witt Jr."), (30, "Coby Mayo"),
-    (31, "Seiya Suzuki"), (32, "Kyle Stowers"), (33, "Junior Caminero"),
-    (34, "Roman Anthony"), (35, "Ian Happ"), (36, "Corey Seager"),
-    (37, "Heliot Ramos"), (38, "Mookie Betts"), (39, "Daylen Lile"),
-    (40, "William Contreras"), (41, "Heriberto Hernández"), (42, "Spencer Torkelson"),
-    (43, "Cal Raleigh"), (44, "Josh Bell"), (45, "Austin Riley"),
-    (46, "Bryce Eldridge"), (47, "Spencer Jones"), (48, "Alec Burleson"),
-    (49, "Wilyer Abreu"), (50, "Ronald Acuña Jr."),
+    (1, "Pete Crow-Armstrong"), (2, "Riley Greene"), (3, "Elly De La Cruz"),
+    (4, "Kazuma Okamoto"), (5, "William Contreras"), (6, "Jackson Merrill"),
+    (7, "Corbin Carroll"), (8, "Munetaka Murakami"), (9, "Yordan Alvarez"),
+    (10, "Henry Bolte"), (11, "Luis García Jr."), (12, "Coby Mayo"),
+    (13, "Nathaniel Lowe"), (14, "Eugenio Suárez"), (15, "Eduardo Valencia"),
+    (16, "Kyle Schwarber"), (17, "Colson Montgomery"), (18, "Connor Norby"),
+    (19, "Seiya Suzuki"), (20, "Max Muncy"), (21, "Teoscar Hernández"),
+    (22, "Garrett Mitchell"), (23, "Lawrence Butler"), (24, "Mookie Betts"),
+    (25, "Matt Olson"), (26, "Aaron Judge"), (27, "Kyle Tucker"),
+    (28, "Nelson Velázquez"), (29, "Alec Burleson"), (30, "Brett Callahan"),
+    (31, "Jake Bauers"), (32, "Bryce Eldridge"), (33, "Spencer Torkelson"),
+    (34, "Cal Raleigh"), (35, "Kyle Teel"), (36, "Francisco Alvarez"),
+    (37, "Ian Happ"), (38, "Jo Adell"), (39, "Pete Alonso"),
+    (40, "Wilyer Abreu"), (41, "Bryan Reynolds"), (42, "Brett Baty"),
+    (43, "Kevin McGonigle"), (44, "Dominic Canzone"), (45, "Ronald Acuña Jr."),
+    (46, "Daylen Lile"), (47, "Tyler Stephenson"), (48, "Willson Contreras"),
+    (49, "Randy Arozarena"), (50, "Fernando Tatis Jr."),
 ]
 
 VENOM_VIPER = [
-    "Amed Rosario", "Brett Callahan", "Ty France", "Seiya Suzuki",
-    "Eduardo Valencia", "Ian Happ", "Jac Caglianone", "Willson Contreras",
-    "James Wood", "Zac Veen", "Justin Foscue", "Gabriel Arias",
-    "Samuel Basallo", "Colton Cowser", "Jesús Sánchez", "Andrew Benintendi",
-    "José Tena", "Brandon Marsh", "Abimelec Ortiz", "Nate Eaton", "Davis Schneider",
+    "Jordan Walker", "Amed Rosario", "Tyler Stephenson", "Eduardo Valencia",
+    "Kyle Stowers", "Connor Norby", "Brett Callahan", "Brady House",
+    "Seiya Suzuki", "Ian Happ", "Jake McCarthy", "Ty France",
+    "Colson Montgomery", "Colton Cowser", "Jac Caglianone", "Zac Veen",
+    "Justin Foscue", "Gabriel Arias", "James Wood", "Jesús Sánchez",
+    "Jake Rogers", "Davis Schneider", "Abimelec Ortiz", "José Tena",
 ]
 
 VENOM_EDGE = [
-    "Luis García Jr.", "Elly De La Cruz", "Eugenio Suárez", "Bryan Reynolds",
-    "Javier Sanoja", "Grant McCray", "Connor Norby", "Nick Sogard",
-    "Corbin Carroll", "Seiya Suzuki", "Luis Torrens", "Ian Happ", "Ty France",
-    "Brett Harris", "Josh Bell", "Kyle Tucker", "Pete Crow-Armstrong",
-    "William Contreras", "Jackson Merrill", "Michael Busch",
+    "Henry Bolte", "William Contreras", "Lawrence Butler", "Garrett Mitchell",
+    "Nathaniel Lowe", "Josh Jung", "Jackson Merrill", "Patrick Bailey",
+    "Grant McCray", "Colton Cowser", "Brice Turang", "Connor Norby",
+    "Juan Brito", "Amed Rosario", "Alec Burleson", "Corbin Carroll",
+    "Kyle Karros", "Brett Bateman", "Coby Mayo", "Riley Greene",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
