@@ -14,44 +14,43 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-19"
+DATE = "2026-09-22"
 
 VENOM_TOP50 = [
-    (1, "Pete Crow-Armstrong"), (2, "Elly De La Cruz"), (3, "Jackson Merrill"),
-    (4, "Coby Mayo"), (5, "Luis García Jr."), (6, "Seiya Suzuki"),
-    (7, "Kazuma Okamoto"), (8, "Kyle Tucker"), (9, "Mookie Betts"),
-    (10, "Teoscar Hernández"), (11, "Yordan Alvarez"), (12, "Eugenio Suárez"),
-    (13, "Pete Alonso"), (14, "Munetaka Murakami"), (15, "Max Muncy"),
-    (16, "Alec Burleson"), (17, "Will Smith"), (18, "Aaron Judge"),
-    (19, "Connor Norby"), (20, "Riley Greene"), (21, "Ian Happ"),
-    (22, "Corbin Carroll"), (23, "Randy Arozarena"), (24, "Jake Bauers"),
-    (25, "Cal Raleigh"), (26, "Ben Rice"), (27, "Wilyer Abreu"),
-    (28, "William Contreras"), (29, "Matt Olson"), (30, "Mike Trout"),
-    (31, "Nathaniel Lowe"), (32, "Garrett Mitchell"), (33, "Dominic Canzone"),
-    (34, "Brett Baty"), (35, "Henry Bolte"), (36, "Juan Soto"),
-    (37, "Nelson Velázquez"), (38, "Colson Montgomery"), (39, "Kyle Teel"),
-    (40, "Francisco Alvarez"), (41, "Moisés Ballesteros"), (42, "Kyle Stowers"),
-    (43, "Zac Veen"), (44, "Victor Mesa Jr."), (45, "Vinnie Pasquantino"),
-    (46, "Carter Jensen"), (47, "Jake Burger"), (48, "Eduardo Valencia"),
-    (49, "Jo Adell"), (50, "Gabriel Arias"),
+    (1, "Elly De La Cruz"), (2, "Jackson Merrill"), (3, "Pete Alonso"),
+    (4, "Pete Crow-Armstrong"), (5, "Coby Mayo"), (6, "Luis García Jr."),
+    (7, "Corbin Carroll"), (8, "Fernando Tatis Jr."), (9, "Victor Mesa Jr."),
+    (10, "Ronald Acuña Jr."), (11, "Spencer Jones"), (12, "Zack Gelof"),
+    (13, "Riley Greene"), (15, "Jake Bauers"), (16, "Brandon Lowe"),
+    (17, "Emmanuel Rodriguez"), (18, "Vinnie Pasquantino"), (19, "Kyle Tucker"),
+    (20, "Brett Callahan"), (22, "Munetaka Murakami"), (23, "Matt Olson"),
+    (24, "Junior Caminero"), (25, "Carter Jensen"), (26, "William Contreras"),
+    (27, "Gunnar Henderson"), (28, "Eduardo Valencia"), (30, "Drake Baldwin"),
+    (31, "Eugenio Suárez"), (32, "Josh Jung"), (33, "Jake Burger"),
+    (34, "Kyle Stowers"), (35, "Joc Pederson"), (36, "Ben Rice"),
+    (37, "Rafael Flores Jr."), (38, "Kazuma Okamoto"), (39, "Leo Bernal"),
+    (40, "Shea Langeliers"), (41, "Randy Arozarena"), (42, "Francisco Alvarez"),
+    (43, "Max Muncy"), (44, "Wilyer Abreu"), (45, "Jac Caglianone"),
+    (46, "Mike Trout"), (47, "Cal Raleigh"), (48, "Daylen Lile"),
+    (49, "Austin Wells"), (50, "Kyle Schwarber"),
 ]
 
 VENOM_VIPER = [
-    "Jordan Walker", "Eduardo Valencia", "Tyler Stephenson", "Jake McCarthy",
-    "Kyle Stowers", "Seiya Suzuki", "Wilyer Abreu", "Salvador Perez",
-    "Connor Norby", "Colson Montgomery", "Zac Veen", "Gabriel Arias",
-    "Bryan Reynolds", "Jac Caglianone", "Justin Foscue", "Victor Bericoto",
-    "Colton Cowser", "Brett Callahan", "Andrew Benintendi", "Amed Rosario",
-    "Brady House", "Abimelec Ortiz", "Jake Rogers", "José Tena",
-    "Jesús Sánchez", "Davis Schneider",
+    "Jordan Walker", "Thomas Saggese", "Kyle Stowers", "Brett Callahan",
+    "Alec Bohm", "Braden Montgomery", "Matt McLain", "Tyler Stephenson",
+    "Bryan Reynolds", "Eduardo Valencia", "Jac Caglianone", "Colton Cowser",
+    "Justin Foscue", "Jesús Sánchez", "Kyle Teel", "Colson Montgomery",
+    "Gabriel Arias", "Amed Rosario", "Brady House", "Mickey Moniak",
+    "Zac Veen", "Abimelec Ortiz", "Andrew Benintendi", "José Tena",
+    "Ryan Jeffers", "Max Schuemann", "Jake Rogers",
 ]
 
 VENOM_EDGE = [
-    "Garrett Mitchell", "Alec Burleson", "Luis García Jr.", "Jackson Merrill",
-    "Josh Jung", "Henry Bolte", "Kyle Teel", "Kyle Karros", "Brett Baty",
-    "Victor Mesa Jr.", "Rafael Flores Jr.", "Moisés Ballesteros",
-    "Connor Norby", "Brice Turang", "Corbin Carroll", "Bryan Reynolds",
-    "Anthony Volpe", "Jeremiah Jackson", "Jac Caglianone", "Leo Bernal",
+    "Victor Mesa Jr.", "Vinnie Pasquantino", "Emmanuel Rodriguez",
+    "Spencer Jones", "Carter Jensen", "Luis García Jr.", "Ian Happ",
+    "Bryan Reynolds", "Thomas Saggese", "Rafael Flores Jr.",
+    "Jonathan Aranda", "Brice Turang", "Pete Crow-Armstrong", "Kyle Stowers",
+    "Brandon Lowe", "Michael Conforto",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
