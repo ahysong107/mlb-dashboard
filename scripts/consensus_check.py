@@ -14,52 +14,58 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-22"
+DATE = "2026-09-23"
 
 VENOM_TOP50 = [
-    (1, "Elly De La Cruz"), (2, "Jackson Merrill"), (3, "Pete Alonso"),
-    (4, "Pete Crow-Armstrong"), (5, "Coby Mayo"), (6, "Luis García Jr."),
-    (7, "Corbin Carroll"), (8, "Fernando Tatis Jr."), (9, "Victor Mesa Jr."),
-    (10, "Ronald Acuña Jr."), (11, "Spencer Jones"), (12, "Zack Gelof"),
-    (13, "Riley Greene"), (15, "Jake Bauers"), (16, "Brandon Lowe"),
-    (17, "Emmanuel Rodriguez"), (18, "Vinnie Pasquantino"), (19, "Kyle Tucker"),
-    (20, "Brett Callahan"), (22, "Munetaka Murakami"), (23, "Matt Olson"),
-    (24, "Junior Caminero"), (25, "Carter Jensen"), (26, "William Contreras"),
-    (27, "Gunnar Henderson"), (28, "Eduardo Valencia"), (30, "Drake Baldwin"),
-    (31, "Eugenio Suárez"), (32, "Josh Jung"), (33, "Jake Burger"),
-    (34, "Kyle Stowers"), (35, "Joc Pederson"), (36, "Ben Rice"),
-    (37, "Rafael Flores Jr."), (38, "Kazuma Okamoto"), (39, "Leo Bernal"),
-    (40, "Shea Langeliers"), (41, "Randy Arozarena"), (42, "Francisco Alvarez"),
-    (43, "Max Muncy"), (44, "Wilyer Abreu"), (45, "Jac Caglianone"),
-    (46, "Mike Trout"), (47, "Cal Raleigh"), (48, "Daylen Lile"),
-    (49, "Austin Wells"), (50, "Kyle Schwarber"),
+    (1, "Pete Alonso"), (2, "Corbin Carroll"), (3, "Brandon Lowe"),
+    (4, "Jake Bauers"), (5, "Mike Trout"), (6, "Yordan Alvarez"),
+    (7, "Ben Rice"), (8, "Brice Turang"), (9, "Coby Mayo"),
+    (10, "Pete Crow-Armstrong"), (11, "Emmanuel Rodriguez"), (12, "Munetaka Murakami"),
+    (13, "Fernando Tatis Jr."), (14, "Jackson Merrill"), (15, "Jonathan Aranda"),
+    (16, "Spencer Jones"), (17, "Gunnar Henderson"), (19, "Victor Mesa Jr."),
+    (21, "Elly De La Cruz"), (22, "Garrett Mitchell"), (23, "Luis García Jr."),
+    (24, "William Contreras"), (26, "Riley Greene"), (27, "Dillon Dingler"),
+    (28, "Vinnie Pasquantino"), (29, "Heliot Ramos"), (30, "Paul Goldschmidt"),
+    (31, "Francisco Alvarez"), (32, "Wilyer Abreu"), (33, "Spencer Torkelson"),
+    (34, "Mookie Betts"), (35, "Matt Olson"), (36, "Ronald Acuña Jr."),
+    (37, "Will Smith"), (38, "Kazuma Okamoto"), (39, "Davis Schneider"),
+    (40, "Sean Keys"), (44, "Cody Bellinger"), (45, "Kyle Tucker"),
+    (46, "Amed Rosario"), (47, "Lazaro Montes"), (48, "Jazz Chisholm Jr."),
+    (49, "Michael Conforto"), (50, "Colton Cowser"), (51, "Samuel Basallo"),
 ]
 
 VENOM_VIPER = [
-    "Jordan Walker", "Thomas Saggese", "Kyle Stowers", "Brett Callahan",
-    "Alec Bohm", "Braden Montgomery", "Matt McLain", "Tyler Stephenson",
-    "Bryan Reynolds", "Eduardo Valencia", "Jac Caglianone", "Colton Cowser",
-    "Justin Foscue", "Jesús Sánchez", "Kyle Teel", "Colson Montgomery",
-    "Gabriel Arias", "Amed Rosario", "Brady House", "Mickey Moniak",
-    "Zac Veen", "Abimelec Ortiz", "Andrew Benintendi", "José Tena",
-    "Ryan Jeffers", "Max Schuemann", "Jake Rogers",
+    "Mike Trout", "Jordan Walker", "Brett Callahan", "Brett Baty",
+    "Thomas Saggese", "Wilyer Abreu", "Jac Caglianone", "Tyler Stephenson",
+    "Julio Rodríguez", "Eduardo Valencia", "Amed Rosario", "Colton Cowser",
+    "Colson Montgomery", "Kyle Teel", "Jesús Sánchez", "Zac Veen",
+    "Ryan McMahon", "Gabriel Arias", "Brady House", "Justin Foscue",
+    "Andrew Benintendi", "Ryan Jeffers", "Jarren Duran", "José Tena",
+    "Jake Rogers", "Matt McLain",
 ]
 
 VENOM_EDGE = [
-    "Victor Mesa Jr.", "Vinnie Pasquantino", "Emmanuel Rodriguez",
-    "Spencer Jones", "Carter Jensen", "Luis García Jr.", "Ian Happ",
-    "Bryan Reynolds", "Thomas Saggese", "Rafael Flores Jr.",
-    "Jonathan Aranda", "Brice Turang", "Pete Crow-Armstrong", "Kyle Stowers",
-    "Brandon Lowe", "Michael Conforto",
+    "Brice Turang", "Emmanuel Rodriguez", "Yohandy Morales", "Amed Rosario",
+    "Brandon Lowe", "Wilyer Abreu", "Daylen Lile", "Angel Martínez",
+    "Dillon Dingler", "Victor Mesa Jr.", "William Contreras", "Garrett Mitchell",
+    "Josh Jung", "Thomas Saggese", "Jonathan Aranda", "Michael Conforto",
+    "Spencer Jones", "Chase Meidroth", "Bryan Reynolds", "Rafael Flores Jr.",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
 VENOM_TOP_N_FOR_CONSENSUS = 25
 
 
+SUFFIXES = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv"}
+
+
 def norm(name):
     name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
-    return name.lower().strip()
+    name = name.lower().strip().rstrip(".")
+    parts = name.split()
+    if parts and parts[-1].rstrip(".") in SUFFIXES:
+        parts = parts[:-1]
+    return " ".join(parts)
 
 
 def main():
