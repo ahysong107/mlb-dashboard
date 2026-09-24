@@ -14,42 +14,43 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-23"
+DATE = "2026-09-24"
 
 VENOM_TOP50 = [
-    (1, "Pete Alonso"), (2, "Corbin Carroll"), (3, "Brandon Lowe"),
-    (4, "Jake Bauers"), (5, "Mike Trout"), (6, "Yordan Alvarez"),
-    (7, "Ben Rice"), (8, "Brice Turang"), (9, "Coby Mayo"),
-    (10, "Pete Crow-Armstrong"), (11, "Emmanuel Rodriguez"), (12, "Munetaka Murakami"),
-    (13, "Fernando Tatis Jr."), (14, "Jackson Merrill"), (15, "Jonathan Aranda"),
-    (16, "Spencer Jones"), (17, "Gunnar Henderson"), (19, "Victor Mesa Jr."),
-    (21, "Elly De La Cruz"), (22, "Garrett Mitchell"), (23, "Luis García Jr."),
-    (24, "William Contreras"), (26, "Riley Greene"), (27, "Dillon Dingler"),
-    (28, "Vinnie Pasquantino"), (29, "Heliot Ramos"), (30, "Paul Goldschmidt"),
-    (31, "Francisco Alvarez"), (32, "Wilyer Abreu"), (33, "Spencer Torkelson"),
-    (34, "Mookie Betts"), (35, "Matt Olson"), (36, "Ronald Acuña Jr."),
-    (37, "Will Smith"), (38, "Kazuma Okamoto"), (39, "Davis Schneider"),
-    (40, "Sean Keys"), (44, "Cody Bellinger"), (45, "Kyle Tucker"),
-    (46, "Amed Rosario"), (47, "Lazaro Montes"), (48, "Jazz Chisholm Jr."),
-    (49, "Michael Conforto"), (50, "Colton Cowser"), (51, "Samuel Basallo"),
+    (1, "Yordan Alvarez"), (2, "Corbin Carroll"), (3, "Ben Rice"),
+    (4, "Jake Bauers"), (5, "Brandon Lowe"), (6, "Wilyer Abreu"),
+    (7, "Shohei Ohtani"), (8, "Elly De La Cruz"), (9, "Jackson Merrill"),
+    (10, "Munetaka Murakami"), (11, "Matt Olson"), (12, "Jordan Walker"),
+    (13, "Brice Turang"), (14, "Fernando Tatis Jr."), (15, "Pete Crow-Armstrong"),
+    (16, "Willson Contreras"), (17, "Nelson Velázquez"), (18, "Randy Arozarena"),
+    (19, "Dominic Canzone"), (20, "Eugenio Suárez"), (21, "Jac Caglianone"),
+    (22, "Vinnie Pasquantino"), (23, "Spencer Jones"), (24, "Jonathan Aranda"),
+    (25, "Garrett Mitchell"), (26, "Lazaro Montes"), (27, "Mike Trout"),
+    (28, "Ronald Acuña Jr."), (29, "Luis García Jr."), (30, "Francisco Alvarez"),
+    (31, "William Contreras"), (32, "Heliot Ramos"), (33, "Tim Tawa"),
+    (34, "Austin Riley"), (35, "Angel Martínez"), (36, "Paul Goldschmidt"),
+    (37, "Zack Gelof"), (38, "Juan Soto"), (39, "Jeremy Peña"),
+    (40, "Kyle Stowers"), (41, "Cal Raleigh"), (42, "Bo Naylor"),
+    (43, "Max Muncy"), (44, "Amed Rosario"), (45, "Jesús Sánchez"),
+    (46, "Jarren Duran"), (47, "Drake Baldwin"), (48, "Wyatt Langford"),
+    (49, "Bryan Reynolds"), (50, "Jazz Chisholm Jr."),
 ]
 
 VENOM_VIPER = [
-    "Mike Trout", "Jordan Walker", "Brett Callahan", "Brett Baty",
-    "Thomas Saggese", "Wilyer Abreu", "Jac Caglianone", "Tyler Stephenson",
-    "Julio Rodríguez", "Eduardo Valencia", "Amed Rosario", "Colton Cowser",
-    "Colson Montgomery", "Kyle Teel", "Jesús Sánchez", "Zac Veen",
-    "Ryan McMahon", "Gabriel Arias", "Brady House", "Justin Foscue",
-    "Andrew Benintendi", "Ryan Jeffers", "Jarren Duran", "José Tena",
-    "Jake Rogers", "Matt McLain",
+    "Shohei Ohtani", "Jordan Walker", "Jesús Sánchez", "Thomas Saggese",
+    "Freddie Freeman", "Wilyer Abreu", "Christian Moore", "Dominic Canzone",
+    "Jac Caglianone", "Bryan Reynolds", "Braden Montgomery", "Luis García Jr.",
+    "Amed Rosario", "Jarren Duran", "Justin Foscue", "Kyle Teel",
+    "Colson Montgomery", "Nolan Gorman", "Gabriel Arias", "Zac Veen",
+    "Tyler Stephenson", "Andrew Benintendi", "Matt McLain", "Jake Rogers",
 ]
 
 VENOM_EDGE = [
-    "Brice Turang", "Emmanuel Rodriguez", "Yohandy Morales", "Amed Rosario",
-    "Brandon Lowe", "Wilyer Abreu", "Daylen Lile", "Angel Martínez",
-    "Dillon Dingler", "Victor Mesa Jr.", "William Contreras", "Garrett Mitchell",
-    "Josh Jung", "Thomas Saggese", "Jonathan Aranda", "Michael Conforto",
-    "Spencer Jones", "Chase Meidroth", "Bryan Reynolds", "Rafael Flores Jr.",
+    "Brice Turang", "Wilyer Abreu", "Angel Martínez", "Jordan Walker",
+    "Garrett Mitchell", "Ben Rice", "Brandon Lowe", "Thomas Saggese",
+    "Jake Bauers", "George Lombard Jr.", "Jonathan Aranda", "Michael Conforto",
+    "Griffin Conine", "Amed Rosario", "Jarren Duran", "Josh Jung",
+    "Eugenio Suárez", "Paul Goldschmidt", "Ian Happ", "Trevor Story",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
