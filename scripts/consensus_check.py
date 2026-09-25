@@ -14,43 +14,41 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-24"
+DATE = "2026-09-25"
 
 VENOM_TOP50 = [
-    (1, "Yordan Alvarez"), (2, "Corbin Carroll"), (3, "Ben Rice"),
-    (4, "Jake Bauers"), (5, "Brandon Lowe"), (6, "Wilyer Abreu"),
-    (7, "Shohei Ohtani"), (8, "Elly De La Cruz"), (9, "Jackson Merrill"),
-    (10, "Munetaka Murakami"), (11, "Matt Olson"), (12, "Jordan Walker"),
-    (13, "Brice Turang"), (14, "Fernando Tatis Jr."), (15, "Pete Crow-Armstrong"),
-    (16, "Willson Contreras"), (17, "Nelson Velázquez"), (18, "Randy Arozarena"),
-    (19, "Dominic Canzone"), (20, "Eugenio Suárez"), (21, "Jac Caglianone"),
-    (22, "Vinnie Pasquantino"), (23, "Spencer Jones"), (24, "Jonathan Aranda"),
-    (25, "Garrett Mitchell"), (26, "Lazaro Montes"), (27, "Mike Trout"),
-    (28, "Ronald Acuña Jr."), (29, "Luis García Jr."), (30, "Francisco Alvarez"),
-    (31, "William Contreras"), (32, "Heliot Ramos"), (33, "Tim Tawa"),
-    (34, "Austin Riley"), (35, "Angel Martínez"), (36, "Paul Goldschmidt"),
-    (37, "Zack Gelof"), (38, "Juan Soto"), (39, "Jeremy Peña"),
-    (40, "Kyle Stowers"), (41, "Cal Raleigh"), (42, "Bo Naylor"),
-    (43, "Max Muncy"), (44, "Amed Rosario"), (45, "Jesús Sánchez"),
-    (46, "Jarren Duran"), (47, "Drake Baldwin"), (48, "Wyatt Langford"),
-    (49, "Bryan Reynolds"), (50, "Jazz Chisholm Jr."),
+    (1, "Pete Alonso"), (2, "Munetaka Murakami"), (3, "Ben Rice"),
+    (4, "Brandon Lowe"), (6, "Yordan Alvarez"), (7, "Coby Mayo"),
+    (8, "Gunnar Henderson"), (10, "Elly De La Cruz"), (13, "Spencer Jones"),
+    (14, "Yohandy Morales"), (15, "Jake Bauers"), (16, "Ronald Acuña Jr."),
+    (17, "Colton Cowser"), (18, "Mike Trout"), (20, "Emmanuel Rodriguez"),
+    (21, "Thomas Saggese"), (22, "Francisco Alvarez"), (23, "Corbin Carroll"),
+    (24, "Shohei Ohtani"), (25, "Iván Herrera"), (26, "Dylan Beavers"),
+    (27, "Pete Crow-Armstrong"), (30, "Michael Conforto"), (31, "Kyle Teel"),
+    (32, "Vinnie Pasquantino"), (33, "Colson Montgomery"), (34, "Jeremy Peña"),
+    (35, "Kyle Stowers"), (36, "Nelson Velázquez"), (37, "Jeremiah Jackson"),
+    (38, "Eugenio Suárez"), (40, "Jonathan Aranda"), (41, "Jordan Walker"),
+    (42, "Fernando Tatis Jr."), (43, "Randy Arozarena"), (44, "Wilyer Abreu"),
+    (45, "Amed Rosario"), (46, "Paul Goldschmidt"), (47, "Christian Encarnacion-Strand"),
+    (48, "Jackson Merrill"), (49, "Riley Greene"), (50, "Kazuma Okamoto"),
 ]
 
 VENOM_VIPER = [
-    "Shohei Ohtani", "Jordan Walker", "Jesús Sánchez", "Thomas Saggese",
-    "Freddie Freeman", "Wilyer Abreu", "Christian Moore", "Dominic Canzone",
-    "Jac Caglianone", "Bryan Reynolds", "Braden Montgomery", "Luis García Jr.",
-    "Amed Rosario", "Jarren Duran", "Justin Foscue", "Kyle Teel",
-    "Colson Montgomery", "Nolan Gorman", "Gabriel Arias", "Zac Veen",
-    "Tyler Stephenson", "Andrew Benintendi", "Matt McLain", "Jake Rogers",
+    "Shohei Ohtani", "Thomas Saggese", "Jordan Walker", "Wilyer Abreu",
+    "Jesús Sánchez", "Freddie Freeman", "Brett Callahan", "Francisco Lindor",
+    "Eduardo Valencia", "Jac Caglianone", "Alec Bohm", "Dominic Canzone",
+    "Kevin McGonigle", "Colton Cowser", "Colson Montgomery", "Amed Rosario",
+    "Brady House", "Andrew Benintendi", "Tyler Stephenson", "Justin Foscue",
+    "Nolan Gorman", "Gabriel Arias", "Jarren Duran", "José Tena",
+    "Ryan Jeffers", "Matt McLain", "Jake Rogers",
 ]
 
 VENOM_EDGE = [
-    "Brice Turang", "Wilyer Abreu", "Angel Martínez", "Jordan Walker",
-    "Garrett Mitchell", "Ben Rice", "Brandon Lowe", "Thomas Saggese",
-    "Jake Bauers", "George Lombard Jr.", "Jonathan Aranda", "Michael Conforto",
-    "Griffin Conine", "Amed Rosario", "Jarren Duran", "Josh Jung",
-    "Eugenio Suárez", "Paul Goldschmidt", "Ian Happ", "Trevor Story",
+    "Jonathan Aranda", "Brady House", "Elly De La Cruz", "Emmanuel Rodriguez",
+    "Francisco Alvarez", "Vinnie Pasquantino", "Ian Happ", "Brandon Lowe",
+    "Hao-Yu Lee", "Thomas Saggese", "Jarren Duran", "Brett Callahan",
+    "Davis Schneider", "Daylen Lile", "Dylan Crews", "CJ Abrams",
+    "Zac Veen", "Sam Antonacci", "Iván Herrera", "Alec Bohm",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
