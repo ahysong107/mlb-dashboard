@@ -14,43 +14,40 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-26"
+DATE = "2026-09-30"
 
 VENOM_TOP50 = [
-    (1, "Brandon Lowe"), (2, "Elly De La Cruz"), (3, "Munetaka Murakami"),
-    (4, "Jake Bauers"), (5, "Francisco Alvarez"), (6, "Shohei Ohtani"),
-    (7, "Zack Gelof"), (8, "Eduardo Valencia"), (9, "Rafael Flores Jr."),
-    (10, "Randy Arozarena"), (11, "Thomas Saggese"), (12, "Randal Grichuk"),
-    (13, "Corbin Carroll"), (14, "Lawrence Butler"), (15, "Drake Baldwin"),
-    (16, "Ronald Acuña Jr."), (17, "Yohandy Morales"), (18, "Vinnie Pasquantino"),
-    (19, "Cal Raleigh"), (20, "Mike Trout"), (21, "Yordan Alvarez"),
-    (22, "Emmanuel Rodriguez"), (23, "Josh Jung"), (24, "Iván Herrera"),
-    (25, "Corey Seager"), (26, "Fernando Tatis Jr."), (27, "Kyle Teel"),
-    (28, "Jackson Merrill"), (29, "Jonathan Aranda"), (30, "Kazuma Okamoto"),
-    (31, "Lazaro Montes"), (32, "Colson Montgomery"), (33, "Daylen Lile"),
-    (34, "Kyle Stowers"), (35, "Nelson Velázquez"), (36, "Eugenio Suárez"),
-    (37, "Brett Callahan"), (38, "Davis Schneider"), (39, "Alec Burleson"),
-    (40, "Jac Caglianone"), (41, "Jackson Chourio"), (42, "Sean Keys"),
-    (43, "Jordan Walker"), (44, "Bryan Reynolds"), (45, "Riley Greene"),
-    (46, "Spencer Torkelson"), (47, "Austin Riley"), (48, "Vladimir Guerrero Jr."),
-    (49, "Henry Davis"), (50, "Walker Jenkins"),
+    (1, "Munetaka Murakami"), (2, "Ben Rice"), (3, "Christian Walker"),
+    (4, "Heliot Ramos"), (5, "Nelson Velázquez"), (6, "Michael Conforto"),
+    (7, "Lucas Spence"), (8, "Spencer Jones"), (9, "Drake Baldwin"),
+    (10, "Rowdy Tellez"), (11, "Fernando Tatis Jr."), (12, "George Lombard Jr."),
+    (13, "Luis García Jr."), (14, "Yordan Alvarez"), (15, "Willson Contreras"),
+    (16, "Austin Wells"), (17, "Otto Kemp"), (18, "Jeremy Peña"),
+    (19, "Yainer Diaz"), (20, "Colson Montgomery"), (21, "Jazz Chisholm Jr."),
+    (22, "Trent Grisham"), (23, "Kyle Teel"), (24, "Cam Smith"),
+    (25, "Randal Grichuk"), (26, "Taylor Trammell"), (27, "Brenton Doyle"),
+    (28, "Jackson Merrill"), (29, "Ronald Acuña Jr."), (30, "Miguel Amaya"),
+    (31, "Matt Olson"), (32, "Jahmai Jones"), (33, "Michael Harris II"),
+    (34, "Pete Crow-Armstrong"), (35, "Austin Riley"), (36, "Seiya Suzuki"),
+    (37, "Kyle Schwarber"), (38, "Roman Anthony"), (39, "Paul Goldschmidt"),
+    (40, "Amed Rosario"), (41, "Alex Bregman"), (42, "Gabriel Arias"),
+    (43, "Derek Hill"), (44, "Wilyer Abreu"), (45, "Andrew Benintendi"),
+    (46, "Jarren Duran"), (47, "Michael Busch"), (48, "Giancarlo Stanton"),
+    (49, "Ryan McMahon"), (50, "Jake Cronenworth"),
 ]
 
 VENOM_VIPER = [
-    "Shohei Ohtani", "Thomas Saggese", "Sean Murphy", "Jesús Sánchez",
-    "Brett Callahan", "Elias Díaz", "Drake Baldwin", "Wyatt Langford",
-    "Kevin McGonigle", "Jac Caglianone", "Eduardo Valencia", "Freddie Freeman",
-    "Alec Bohm", "Colson Montgomery", "Ryan Jeffers", "Brady House",
-    "Andrew Benintendi", "Justin Foscue", "Nolan Gorman", "Matt McLain",
-    "José Tena", "Jake Rogers", "Tyler Stephenson",
+    "Sean Murphy", "Wilyer Abreu", "Luis García Jr.", "Trent Grisham",
+    "Paul Goldschmidt", "Amed Rosario", "Gabriel Arias", "Jarren Duran",
+    "Jake Rogers",
 ]
 
 VENOM_EDGE = [
-    "Brandon Lowe", "Thomas Saggese", "Rafael Flores Jr.", "Jake Bauers",
-    "Kevin McGonigle", "Vladimir Guerrero Jr.", "Austin Riley", "Bryan Reynolds",
-    "Zack Gelof", "Josh Jung", "Daylen Lile", "Drake Baldwin",
-    "Davis Schneider", "Lawrence Butler", "Mark Vientos", "Alec Bohm",
-    "Iván Herrera", "Emmanuel Rodriguez", "Carson Benge", "Sal Stewart",
+    "Heliot Ramos", "Spencer Jones", "Lucas Spence", "Taylor Trammell",
+    "Ben Rice", "Austin Wells", "Michael Conforto", "Derek Hill",
+    "Jake Cronenworth", "Chase Meidroth", "Roman Anthony", "Andrew Benintendi",
+    "Amed Rosario", "Drake Baldwin", "Kyle Teel", "Jarren Duran",
+    "Munetaka Murakami", "Willson Contreras", "Ceddanne Rafaela", "Adley Rutschman",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
