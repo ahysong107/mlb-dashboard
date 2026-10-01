@@ -14,40 +14,43 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-09-30"
+DATE = "2026-10-01"
 
+# NOTE: Venom's list includes players from NYY/BOS and CHC/SD -- series that
+# aren't playing today (user confirmed only ATL @ PHI is on today's actual
+# schedule). Those entries are left in below for a complete comparison, but
+# expect them to show as "not scored by us" simply because they're not
+# playing today, not because of a real coverage gap -- don't read those as
+# bugs the way earlier same-day gaps were.
 VENOM_TOP50 = [
-    (1, "Munetaka Murakami"), (2, "Ben Rice"), (3, "Christian Walker"),
-    (4, "Heliot Ramos"), (5, "Nelson Velázquez"), (6, "Michael Conforto"),
-    (7, "Lucas Spence"), (8, "Spencer Jones"), (9, "Drake Baldwin"),
-    (10, "Rowdy Tellez"), (11, "Fernando Tatis Jr."), (12, "George Lombard Jr."),
-    (13, "Luis García Jr."), (14, "Yordan Alvarez"), (15, "Willson Contreras"),
-    (16, "Austin Wells"), (17, "Otto Kemp"), (18, "Jeremy Peña"),
-    (19, "Yainer Diaz"), (20, "Colson Montgomery"), (21, "Jazz Chisholm Jr."),
-    (22, "Trent Grisham"), (23, "Kyle Teel"), (24, "Cam Smith"),
-    (25, "Randal Grichuk"), (26, "Taylor Trammell"), (27, "Brenton Doyle"),
-    (28, "Jackson Merrill"), (29, "Ronald Acuña Jr."), (30, "Miguel Amaya"),
-    (31, "Matt Olson"), (32, "Jahmai Jones"), (33, "Michael Harris II"),
-    (34, "Pete Crow-Armstrong"), (35, "Austin Riley"), (36, "Seiya Suzuki"),
-    (37, "Kyle Schwarber"), (38, "Roman Anthony"), (39, "Paul Goldschmidt"),
-    (40, "Amed Rosario"), (41, "Alex Bregman"), (42, "Gabriel Arias"),
-    (43, "Derek Hill"), (44, "Wilyer Abreu"), (45, "Andrew Benintendi"),
-    (46, "Jarren Duran"), (47, "Michael Busch"), (48, "Giancarlo Stanton"),
-    (49, "Ryan McMahon"), (50, "Jake Cronenworth"),
+    (1, "Ben Rice"), (2, "Drake Baldwin"), (3, "Michael Conforto"),
+    (4, "Wilyer Abreu"), (5, "Fernando Tatis Jr."), (6, "Spencer Jones"),
+    (7, "Otto Kemp"), (8, "Willson Contreras"), (9, "Heliot Ramos"),
+    (10, "Rowdy Tellez"), (11, "Jackson Merrill"), (12, "Austin Riley"),
+    (13, "Michael Harris II"), (14, "George Lombard Jr."), (15, "Luis García Jr."),
+    (16, "Derek Hill"), (17, "Ronald Acuña Jr."), (18, "Trent Grisham"),
+    (19, "Jahmai Jones"), (20, "Jarren Duran"), (21, "Miguel Amaya"),
+    (22, "Matt Olson"), (23, "Pete Crow-Armstrong"), (24, "Austin Wells"),
+    (25, "Seiya Suzuki"), (26, "Alex Bregman"), (27, "Sean Murphy"),
+    (28, "Gabriel Arias"), (29, "Michael Busch"), (30, "Amed Rosario"),
+    (31, "Paul Goldschmidt"), (32, "Ceddanne Rafaela"), (33, "Giancarlo Stanton"),
+    (34, "Jazz Chisholm Jr."), (35, "Gavin Sheets"), (36, "Jake Cronenworth"),
+    (37, "Ian Happ"), (38, "Brandon Marsh"), (39, "Ryan McMahon"),
+    (40, "Dominic Smith"), (41, "Luis Campusano"), (42, "Curtis Mead"),
+    (43, "Alec Bohm"), (44, "Dansby Swanson"), (45, "Austin Hays"),
+    (46, "Manny Machado"), (47, "Mike Yastrzemski"), (48, "Edmundo Sosa"),
+    (49, "Mauricio Dubón"), (50, "Tyrone Taylor"),
 ]
 
 VENOM_VIPER = [
-    "Sean Murphy", "Wilyer Abreu", "Luis García Jr.", "Trent Grisham",
-    "Paul Goldschmidt", "Amed Rosario", "Gabriel Arias", "Jarren Duran",
-    "Jake Rogers",
+    "Wilyer Abreu", "Trent Grisham", "Jarren Duran", "Sean Murphy",
+    "Gabriel Arias", "Amed Rosario", "Paul Goldschmidt",
 ]
 
 VENOM_EDGE = [
-    "Heliot Ramos", "Spencer Jones", "Lucas Spence", "Taylor Trammell",
-    "Ben Rice", "Austin Wells", "Michael Conforto", "Derek Hill",
-    "Jake Cronenworth", "Chase Meidroth", "Roman Anthony", "Andrew Benintendi",
-    "Amed Rosario", "Drake Baldwin", "Kyle Teel", "Jarren Duran",
-    "Munetaka Murakami", "Willson Contreras", "Ceddanne Rafaela", "Adley Rutschman",
+    "Derek Hill", "Drake Baldwin", "Jake Cronenworth", "Mauricio Dubón",
+    "Jackson Merrill", "Austin Riley", "Sean Murphy", "Michael Harris II",
+    "Justin Crawford",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
