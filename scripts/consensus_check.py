@@ -46,8 +46,8 @@ VENOM_EDGE = [
     "Teoscar Hernández",
 ]
 
-OUR_TOP_N_FOR_CONSENSUS = 25
-VENOM_TOP_N_FOR_CONSENSUS = 25
+OUR_TOP_N_FOR_CONSENSUS = 15
+VENOM_TOP_N_FOR_CONSENSUS = 15
 
 
 SUFFIXES = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv"}
