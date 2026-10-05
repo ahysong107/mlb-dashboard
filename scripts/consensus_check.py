@@ -14,36 +14,28 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-04"
+DATE = "2026-10-05"
 
 VENOM_TOP50 = [
-    (1, "Shohei Ohtani"), (2, "Max Muncy"), (3, "Jake Bauers"),
-    (4, "Rowdy Tellez"), (5, "Andy Pages"), (6, "Will Smith"),
-    (7, "Jackson Merrill"), (8, "Teoscar Hernández"), (9, "Josue De Paula"),
-    (10, "Ronald Acuña Jr."), (11, "Fernando Tatis Jr."), (12, "Austin Riley"),
-    (13, "Drake Baldwin"), (14, "Matt Olson"), (15, "Garrett Mitchell"),
-    (16, "Freddie Freeman"), (17, "Enrique Hernández"), (18, "Mookie Betts"),
-    (19, "Jackson Chourio"), (20, "Michael Harris II"), (21, "Hunter Feduccia"),
-    (22, "Sean Murphy"), (23, "Brice Turang"), (24, "Mike Yastrzemski"),
-    (25, "Christian Yelich"), (26, "William Contreras"), (27, "Miguel Rojas"),
-    (28, "Tommy Edman"), (29, "Brewer Hicklen"), (30, "Ty France"),
-    (31, "Manny Machado"), (32, "Gavin Sheets"), (33, "Gary Sánchez"),
-    (34, "Lane Thomas"), (35, "Kyle Tucker"), (36, "Austin Hays"),
-    (37, "Luis Campusano"), (38, "Mauricio Dubón"), (39, "Joey Ortiz"),
-    (40, "Andrew Vaughn"), (41, "Xander Bogaerts"), (42, "Ozzie Albies"),
-    (43, "Ethan Salas"), (44, "Hyeseong Kim"), (45, "David Hamilton"),
-    (46, "Jase Bowen"), (47, "Luis Lara"), (48, "Jake Cronenworth"),
-    (49, "Cooper Pratt"), (50, "Ha-Seong Kim"),
+    (1, "Munetaka Murakami"), (2, "Ben Rice"), (3, "Spencer Jones"),
+    (4, "Luis García Jr."), (5, "Miguel Vargas"), (6, "Kyle Teel"),
+    (7, "Nathaniel Lowe"), (8, "Junior Caminero"), (9, "Heliot Ramos"),
+    (10, "Colson Montgomery"), (11, "Randal Grichuk"), (12, "Patrick Bailey"),
+    (13, "Jo Adell"), (14, "Austin Wells"), (15, "Victor Mesa Jr."),
+    (16, "Andrew Benintendi"), (17, "Chase DeLauter"), (18, "Daniel Schneemann"),
+    (19, "Angel Martínez"), (20, "Paul Goldschmidt"), (21, "Jazz Chisholm Jr."),
+    (22, "Jonathan Aranda"), (23, "Giancarlo Stanton"), (24, "David Fry"),
+    (25, "Ryan McMahon"),
 ]
 
 VENOM_VIPER = [
-    "Shohei Ohtani", "Jake Bauers", "Garrett Mitchell", "Freddie Freeman",
+    "Luis García Jr.", "Nathaniel Lowe", "Colson Montgomery",
+    "Paul Goldschmidt", "Trent Grisham", "Jake Rogers",
 ]
 
 VENOM_EDGE = [
-    "Max Muncy", "Andy Pages", "Drake Baldwin", "Jake Bauers",
-    "Garrett Mitchell", "Michael Harris II", "Brice Turang", "Christian Yelich",
-    "Teoscar Hernández",
+    "Munetaka Murakami", "Kyle Teel", "Nathaniel Lowe", "Patrick Bailey",
+    "Chase Meidroth", "Andrew Benintendi", "Miguel Vargas",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
