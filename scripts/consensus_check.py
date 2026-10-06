@@ -14,28 +14,27 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-05"
+DATE = "2026-10-06"
 
 VENOM_TOP50 = [
-    (1, "Munetaka Murakami"), (2, "Ben Rice"), (3, "Spencer Jones"),
-    (4, "Luis García Jr."), (5, "Miguel Vargas"), (6, "Kyle Teel"),
-    (7, "Nathaniel Lowe"), (8, "Junior Caminero"), (9, "Heliot Ramos"),
-    (10, "Colson Montgomery"), (11, "Randal Grichuk"), (12, "Patrick Bailey"),
-    (13, "Jo Adell"), (14, "Austin Wells"), (15, "Victor Mesa Jr."),
-    (16, "Andrew Benintendi"), (17, "Chase DeLauter"), (18, "Daniel Schneemann"),
-    (19, "Angel Martínez"), (20, "Paul Goldschmidt"), (21, "Jazz Chisholm Jr."),
-    (22, "Jonathan Aranda"), (23, "Giancarlo Stanton"), (24, "David Fry"),
-    (25, "Ryan McMahon"),
+    (1, "Shohei Ohtani"), (2, "Jake Bauers"), (3, "Matt Olson"),
+    (4, "Rowdy Tellez"), (5, "Jackson Merrill"), (6, "Drake Baldwin"),
+    (7, "Fernando Tatis Jr."), (8, "Ronald Acuña Jr."), (9, "Austin Riley"),
+    (10, "Garrett Mitchell"), (11, "Jackson Chourio"), (12, "Max Muncy"),
+    (13, "Michael Harris II"), (14, "Gavin Sheets"), (15, "Will Smith"),
+    (16, "Ty France"), (17, "Teoscar Hernández"), (18, "Manny Machado"),
+    (19, "Josue De Paula"), (20, "Andy Pages"), (21, "Sean Murphy"),
+    (22, "Austin Hays"), (23, "Brice Turang"), (24, "Luis Campusano"),
+    (25, "Mike Yastrzemski"),
 ]
 
 VENOM_VIPER = [
-    "Luis García Jr.", "Nathaniel Lowe", "Colson Montgomery",
-    "Paul Goldschmidt", "Trent Grisham", "Jake Rogers",
+    "Shohei Ohtani", "Jake Bauers", "Garrett Mitchell",
+    "Sean Murphy", "Freddie Freeman",
 ]
 
 VENOM_EDGE = [
-    "Munetaka Murakami", "Kyle Teel", "Nathaniel Lowe", "Patrick Bailey",
-    "Chase Meidroth", "Andrew Benintendi", "Miguel Vargas",
+    "Shohei Ohtani", "Drake Baldwin",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
