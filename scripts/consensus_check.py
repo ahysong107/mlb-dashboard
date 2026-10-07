@@ -14,27 +14,32 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-06"
+DATE = "2026-10-07"
 
 VENOM_TOP50 = [
-    (1, "Shohei Ohtani"), (2, "Jake Bauers"), (3, "Matt Olson"),
-    (4, "Rowdy Tellez"), (5, "Jackson Merrill"), (6, "Drake Baldwin"),
-    (7, "Fernando Tatis Jr."), (8, "Ronald Acuña Jr."), (9, "Austin Riley"),
-    (10, "Garrett Mitchell"), (11, "Jackson Chourio"), (12, "Max Muncy"),
-    (13, "Michael Harris II"), (14, "Gavin Sheets"), (15, "Will Smith"),
-    (16, "Ty France"), (17, "Teoscar Hernández"), (18, "Manny Machado"),
-    (19, "Josue De Paula"), (20, "Andy Pages"), (21, "Sean Murphy"),
-    (22, "Austin Hays"), (23, "Brice Turang"), (24, "Luis Campusano"),
-    (25, "Mike Yastrzemski"),
+    (1, "Munetaka Murakami"), (2, "Shohei Ohtani"), (3, "Ben Rice"),
+    (4, "Miguel Vargas"), (5, "Jake Bauers"), (6, "Colson Montgomery"),
+    (7, "Spencer Jones"), (8, "Luis García Jr."), (9, "Andrew Benintendi"),
+    (10, "Matt Olson"), (11, "Rowdy Tellez"), (12, "Kyle Teel"),
+    (13, "Junior Caminero"), (14, "Drake Baldwin"), (15, "Austin Wells"),
+    (16, "Fernando Tatis Jr."), (17, "Max Muncy"), (18, "Jackson Merrill"),
+    (19, "Randal Grichuk"), (20, "Jackson Chourio"), (21, "Heliot Ramos"),
+    (22, "Ronald Acuña Jr."), (23, "Garrett Mitchell"), (24, "Austin Riley"),
+    (25, "Will Smith"),
 ]
 
 VENOM_VIPER = [
-    "Shohei Ohtani", "Jake Bauers", "Garrett Mitchell",
-    "Sean Murphy", "Freddie Freeman",
+    "Shohei Ohtani", "Jake Bauers", "Colson Montgomery", "Luis García Jr.",
+    "Garrett Mitchell", "Paul Goldschmidt", "Nathaniel Lowe", "Jake Rogers",
+    "Trent Grisham", "Sean Murphy",
 ]
 
 VENOM_EDGE = [
-    "Shohei Ohtani", "Drake Baldwin",
+    "Garrett Mitchell", "Kyle Teel", "Colson Montgomery", "Chase Meidroth",
+    "Munetaka Murakami", "Nathaniel Lowe", "Miguel Vargas", "Jake Bauers",
+    "Spencer Jones", "Brice Turang", "Christian Yelich", "Austin Riley",
+    "Joey Ortiz", "Patrick Bailey", "Jake Cronenworth", "Tommy Pham",
+    "Braden Montgomery", "Drake Baldwin", "Liam Hicks", "Taylor Walls",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
