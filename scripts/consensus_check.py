@@ -14,22 +14,27 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-08"
+DATE = "2026-10-12"
 
-# No Homer Rankings top-25 list was provided today -- only Viper Alert and
-# Venom Edge. Leaving VENOM_TOP50 empty disables the consensus/gap sections
-# (they'd be meaningless without it); Viper and Edge overlap still run below.
-VENOM_TOP50 = []
+VENOM_TOP50 = [
+    (1, "Shohei Ohtani"), (2, "Jake Bauers"), (3, "Junior Caminero"),
+    (4, "Max Muncy"), (5, "Jackson Chourio"), (6, "Garrett Mitchell"),
+    (7, "Josue De Paula"), (8, "Will Smith"), (9, "Jonathan Aranda"),
+    (10, "Teoscar Hernández"), (11, "Andy Pages"), (12, "Victor Mesa Jr."),
+    (13, "Freddie Freeman"), (14, "Brice Turang"), (15, "Christian Yelich"),
+    (16, "Nathaniel Lowe"), (17, "Enrique Hernández"), (18, "Mookie Betts"),
+    (19, "William Contreras"), (20, "Jo Adell"), (21, "Kyle Tucker"),
+    (22, "Gary Sánchez"), (23, "Yandy Díaz"), (24, "Daniel Schneemann"),
+    (25, "Patrick Bailey"),
+]
 
 VENOM_VIPER = [
-    "Luis García Jr.", "Nathaniel Lowe", "Paul Goldschmidt",
-    "Colson Montgomery", "Trent Grisham", "Jake Rogers",
+    "Shohei Ohtani", "Jake Bauers", "Garrett Mitchell",
+    "Freddie Freeman", "Nathaniel Lowe",
 ]
 
-VENOM_EDGE = [
-    "Patrick Bailey", "Nathaniel Lowe", "Kyle Teel", "Chase Meidroth",
-    "Angel Martínez", "Travis Bazzana", "Munetaka Murakami", "Chase DeLauter",
-]
+# No Venom Edge list was provided today.
+VENOM_EDGE = []
 
 OUR_TOP_N_FOR_CONSENSUS = 25
 VENOM_TOP_N_FOR_CONSENSUS = 25
