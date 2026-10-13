@@ -14,27 +14,27 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-12"
+DATE = "2026-10-13"
 
 VENOM_TOP50 = [
-    (1, "Shohei Ohtani"), (2, "Jake Bauers"), (3, "Junior Caminero"),
-    (4, "Max Muncy"), (5, "Jackson Chourio"), (6, "Garrett Mitchell"),
-    (7, "Josue De Paula"), (8, "Will Smith"), (9, "Jonathan Aranda"),
-    (10, "Teoscar Hernández"), (11, "Andy Pages"), (12, "Victor Mesa Jr."),
-    (13, "Freddie Freeman"), (14, "Brice Turang"), (15, "Christian Yelich"),
-    (16, "Nathaniel Lowe"), (17, "Enrique Hernández"), (18, "Mookie Betts"),
-    (19, "William Contreras"), (20, "Jo Adell"), (21, "Kyle Tucker"),
-    (22, "Gary Sánchez"), (23, "Yandy Díaz"), (24, "Daniel Schneemann"),
-    (25, "Patrick Bailey"),
+    (1, "Junior Caminero"), (2, "Jo Adell"), (3, "Patrick Bailey"),
+    (4, "Nathaniel Lowe"), (5, "Jonathan Aranda"), (6, "David Fry"),
+    (7, "Chase DeLauter"), (8, "Victor Mesa Jr."), (9, "Angel Martínez"),
+    (10, "Angel Genao"), (11, "Petey Halpin"), (12, "Yandy Díaz"),
+    (13, "Travis Bazzana"), (14, "José Ramírez"), (15, "Ryan Vilade"),
+    (16, "Austin Hedges"), (17, "Jorge Mateo"), (18, "Brayan Rocchio"),
+    (19, "Jonny DeLuca"), (20, "Cedric Mullins"), (21, "Nick Fortes"),
+    (22, "Liam Hicks"), (23, "Richie Palacios"), (24, "Taylor Walls"),
+    (25, "Steven Kwan"),
 ]
 
 VENOM_VIPER = [
-    "Shohei Ohtani", "Jake Bauers", "Garrett Mitchell",
-    "Freddie Freeman", "Nathaniel Lowe",
+    "Nathaniel Lowe",
 ]
 
-# No Venom Edge list was provided today.
-VENOM_EDGE = []
+VENOM_EDGE = [
+    "Patrick Bailey",
+]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
 VENOM_TOP_N_FOR_CONSENSUS = 25
