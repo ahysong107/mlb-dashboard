@@ -14,18 +14,18 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-13"
+DATE = "2026-10-15"
 
+# CLE/TB-only slate today: Venom's list filtered to those two teams, keeping Venom's true ranks.
 VENOM_TOP50 = [
-    (1, "Junior Caminero"), (2, "Jo Adell"), (3, "Patrick Bailey"),
-    (4, "Nathaniel Lowe"), (5, "Jonathan Aranda"), (6, "David Fry"),
-    (7, "Chase DeLauter"), (8, "Victor Mesa Jr."), (9, "Angel Martínez"),
-    (10, "Angel Genao"), (11, "Petey Halpin"), (12, "Yandy Díaz"),
-    (13, "Travis Bazzana"), (14, "José Ramírez"), (15, "Ryan Vilade"),
-    (16, "Austin Hedges"), (17, "Jorge Mateo"), (18, "Brayan Rocchio"),
-    (19, "Jonny DeLuca"), (20, "Cedric Mullins"), (21, "Nick Fortes"),
-    (22, "Liam Hicks"), (23, "Richie Palacios"), (24, "Taylor Walls"),
-    (25, "Steven Kwan"),
+    (7, "Junior Caminero"), (15, "Jonathan Aranda"), (18, "Victor Mesa Jr."),
+    (22, "Jo Adell"), (25, "Chase DeLauter"), (26, "Nathaniel Lowe"),
+    (27, "Patrick Bailey"), (28, "Angel Martínez"), (29, "Yandy Díaz"),
+    (31, "Ryan Vilade"), (32, "David Fry"), (35, "Petey Halpin"),
+    (36, "Angel Genao"), (38, "Jorge Mateo"), (39, "Travis Bazzana"),
+    (40, "Jonny DeLuca"), (41, "Cedric Mullins"), (43, "José Ramírez"),
+    (44, "Liam Hicks"), (46, "Austin Hedges"), (47, "Richie Palacios"),
+    (48, "Nick Fortes"), (49, "Brayan Rocchio"), (50, "Taylor Walls"),
 ]
 
 VENOM_VIPER = [
