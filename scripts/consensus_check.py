@@ -14,18 +14,14 @@ warnings.filterwarnings("ignore")
 sys.path.insert(0, "scripts")
 from backtest import load_snapshot
 
-DATE = "2026-10-15"
+DATE = "2026-10-17"
 
-# CLE/TB-only slate today: Venom's list filtered to those two teams, keeping Venom's true ranks.
+# Only Venom's top 10 was pasted today, so the "we're strong, Venom absent" section is overstated.
 VENOM_TOP50 = [
-    (7, "Junior Caminero"), (15, "Jonathan Aranda"), (18, "Victor Mesa Jr."),
-    (22, "Jo Adell"), (25, "Chase DeLauter"), (26, "Nathaniel Lowe"),
-    (27, "Patrick Bailey"), (28, "Angel Martínez"), (29, "Yandy Díaz"),
-    (31, "Ryan Vilade"), (32, "David Fry"), (35, "Petey Halpin"),
-    (36, "Angel Genao"), (38, "Jorge Mateo"), (39, "Travis Bazzana"),
-    (40, "Jonny DeLuca"), (41, "Cedric Mullins"), (43, "José Ramírez"),
-    (44, "Liam Hicks"), (46, "Austin Hedges"), (47, "Richie Palacios"),
-    (48, "Nick Fortes"), (49, "Brayan Rocchio"), (50, "Taylor Walls"),
+    (1, "Junior Caminero"), (2, "Jonathan Aranda"), (3, "Victor Mesa Jr."),
+    (4, "Chase DeLauter"), (5, "Yandy Díaz"), (6, "Jo Adell"),
+    (7, "Nathaniel Lowe"), (8, "Patrick Bailey"), (9, "Ryan Vilade"),
+    (10, "Angel Martínez"),
 ]
 
 VENOM_VIPER = [
@@ -33,7 +29,9 @@ VENOM_VIPER = [
 ]
 
 VENOM_EDGE = [
-    "Patrick Bailey",
+    "Junior Caminero", "Yandy Díaz", "Chase DeLauter", "Victor Mesa Jr.",
+    "Jorge Mateo", "Jonny DeLuca", "Taylor Walls", "Patrick Bailey",
+    "Ryan Vilade", "Nathaniel Lowe",
 ]
 
 OUR_TOP_N_FOR_CONSENSUS = 25
